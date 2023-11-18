@@ -15,4 +15,6 @@ inputs = {
   public_subnet_ids = dependency.network.outputs.public_subnet_ids
   private_subnet_ids = dependency.network.outputs.private_subnet_ids
   target_group_arn = dependency.network.outputs.jenkins_target_group_arn
+
+  jenkins_theme_color = "blue"
 }

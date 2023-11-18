@@ -1,0 +1,13 @@
+def pipelineScript = readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/job-dsl-scripts/pipeline-script/sample3-pipeline.groovy')
+//def pipelineScript = readFileFromWorkspace('job-dsl-scripts/pipeline-script/sample3-pipeline.groovy')
+pipelineJob('example-pipeline-job') {
+    definition {
+        cps {
+            script(pipelineScript)
+            sandbox(true)
+        }
+    }
+    triggers {
+        cron('H */4 * * *') // 4時間ごとにビルド
+    }
+}

@@ -17,3 +17,15 @@ variable "private_subnet_ids" {
 variable "target_group_arn" {
   type = string
 }
+
+variable "jenkins_ecr_policy_arn" {
+  type = string
+}
+
+variable "docker_image" {
+  type = string
+}
+
+variable "jenkins_theme_color" {
+  type = string
+}

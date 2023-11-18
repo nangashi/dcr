@@ -39,6 +39,11 @@ resource "aws_iam_role_policy_attachment" "jenkins_ecs" {
   role       = aws_iam_role.jenkins_ecs_execution.name
 }
 
+resource "aws_iam_role_policy_attachment" "jenkins_ecr" {
+  policy_arn = var.jenkins_ecr_policy_arn
+  role       = aws_iam_role.jenkins_ecs_execution.name
+}
+
 resource "aws_iam_role" "jenkins_task_execution" {
   name = "jenkins-task-execution-${var.env}"
 
@@ -94,7 +99,8 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
 
   container_definitions = jsonencode([{
     name  = "jenkins"
-    image = "jenkins/jenkins:lts"
+    # image = "jenkins/jenkins:lts"
+    image = var.docker_image
     essential = true
     portMappings = [{
       containerPort = 8080
@@ -102,7 +108,8 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
     }]
 
     environment = [
-      { name = "JENKINS_OPTS", value = "--prefix=/jenkins" }
+      { name = "JENKINS_OPTS", value = "--prefix=/jenkins" },
+      { name = "JENKINS_THEME_COLOR", value = var.jenkins_theme_color },
     ]
 
     mountPoints = [{

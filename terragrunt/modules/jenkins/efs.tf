@@ -43,6 +43,9 @@ data "aws_iam_policy_document" "jenkins_efs" {
     }
 
     actions = ["*"]
+    resources = [
+      aws_efs_file_system.jenkins_efs.arn
+    ]
 
     # resources = [aws_efs_file_system.jenkins_efs.arn]
     condition {
