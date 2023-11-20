@@ -19,11 +19,17 @@ run:
 	# client_id=$(ssm_value)
 	# @make .ssm key=/google_oauth/client_secret
 	# client_secret=$(ssm_value)
-	docker run --rm -p 8080:8080 \
+	docker run --rm \
+		-p 8080:8080 \
 		-e JENKINS_THEME_COLOR=blue \
 		-e JENKINS_URL=http://localhost:8080/ \
+		-e GIT_REPOSITORY=https://github.com/nangashi/dcr.git \
+		-e GIT_BRANCH=feature/jenkins \
 		-e GOOGLE_OAUTH2_CLIENT_ID=$(shell aws ssm get-parameter --name "/google_oauth/client_id" --with-decryption --query "Parameter.Value" --output text) \
 		-e GOOGLE_OAUTH2_CLIENT_SECRET=$(shell aws ssm get-parameter --name "/google_oauth/client_secret" --with-decryption --query "Parameter.Value" --output text) \
+		-v $(PWD)/config/jenkins.yaml:/var/jenkins_home/jenkins.yaml \
+		-v $(PWD)/script/create_job.groovy:/usr/share/jenkins/ref/init.groovy.d/create_job.groovy \
+		-v $(PWD)/jobs:/usr/share/jenkins/ref/init.groovy.d/job-dsl-scripts \
 		$(IMAGE):$(TAG)
 
 # Push Docker image to registry
