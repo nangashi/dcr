@@ -114,8 +114,8 @@ security:
     port: -1
   scriptApproval:
     approvedScriptHashes:
-    - "SHA512:74fc91c592a1026df64c18fa6ee284ff28cfd8226e9ed790ee9cd92da65dc8403e3bea1829f2dde968931c4865ab3c6bc1a8b831d6fb566755a86f8095b136ac"
     - "SHA512:ca92443d2e7b2639a00c7987d095d0f0e6614aac64e75cbc01290b5428048df9751de626bf1dffdaec728112ec4d5c9f0536943eda9a5f2baa13eb5195f25777"
+    - "SHA512:d94f9fe292bc07632e9e017fbcb85f3de3d3f2cc3496fb32223127a296d29e2c3f393a5457ab7e49a67bdfe9b6b43a2487d85d6fa4c545ea5cfdf22c1da6fb87"
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
@@ -134,8 +134,8 @@ unclassified:
     useTls: false
   pollSCM:
     pollingThreadCount: 10
-  prismConfiguration:
-    theme: PRISM
+  # prismConfiguration:
+    # theme: PRISM
   scmGit:
     addGitTagAction: false
     allowSecondFetch: false
