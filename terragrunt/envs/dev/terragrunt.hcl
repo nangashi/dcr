@@ -4,6 +4,11 @@ locals {
   account = "384081048358"
   # システム名
   system = "dcr"
+
+  git_repository = "https://github.com/nangashi/dcr.git"
+  git_branch = "feature/jenkins"
+
+  jenkins_prefix = "/jenkins"
 }
 
 dependency "common" {

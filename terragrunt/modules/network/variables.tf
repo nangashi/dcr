@@ -21,3 +21,7 @@ variable "private_subnets" {
     }
   ))
 }
+
+variable "jenkins_prefix" {
+  type = string
+}

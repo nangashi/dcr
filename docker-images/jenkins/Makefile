@@ -2,7 +2,7 @@ REPOSITORY=384081048358.dkr.ecr.ap-northeast-1.amazonaws.com
 # Docker image name
 IMAGE=$(REPOSITORY)/jenkins
 # Docker image tag
-TAG=2.431-3
+TAG=2.431-7
 # Dockerfile location
 DOCKERFILE=Dockerfile
 
@@ -27,9 +27,8 @@ run:
 		-e GIT_BRANCH=feature/jenkins \
 		-e GOOGLE_OAUTH2_CLIENT_ID=$(shell aws ssm get-parameter --name "/google_oauth/client_id" --with-decryption --query "Parameter.Value" --output text) \
 		-e GOOGLE_OAUTH2_CLIENT_SECRET=$(shell aws ssm get-parameter --name "/google_oauth/client_secret" --with-decryption --query "Parameter.Value" --output text) \
-		-v $(PWD)/config/jenkins.yaml:/var/jenkins_home/jenkins.yaml \
 		-v $(PWD)/script/create_job.groovy:/usr/share/jenkins/ref/init.groovy.d/create_job.groovy \
-		-v $(PWD)/jobs:/usr/share/jenkins/ref/init.groovy.d/job-dsl-scripts \
+		-v $(PWD)/jobs:/usr/share/jenkins/ref/init.groovy.d/jobs \
 		$(IMAGE):$(TAG)
 
 # Push Docker image to registry

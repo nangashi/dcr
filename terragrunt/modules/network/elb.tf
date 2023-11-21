@@ -71,7 +71,7 @@ resource "aws_lb_listener_rule" "jenkins_elb" {
 
   condition {
     path_pattern {
-      values = ["/jenkins*"]
+      values = ["${var.jenkins_prefix}*"]
     }
   }
 }

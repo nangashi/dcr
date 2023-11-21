@@ -108,8 +108,13 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
     }]
 
     environment = [
-      { name = "JENKINS_OPTS", value = "--prefix=/jenkins" },
+      { name = "JENKINS_OPTS", value = "--prefix=${var.jenkins_prefix}" },
       { name = "JENKINS_THEME_COLOR", value = var.jenkins_theme_color },
+      { name = "JENKINS_URL", value = "http://${var.jenkins_host}${var.jenkins_prefix}" },
+      { name = "GIT_REPOSITORY", value = var.git_repository },
+      { name = "GIT_BRANCH", value = var.git_branch },
+      { name = "GOOGLE_OAUTH2_CLIENT_ID", value = data.aws_ssm_parameter.google_oauth_client_id.value },
+      { name = "GOOGLE_OAUTH2_CLIENT_SECRET", value = data.aws_ssm_parameter.google_oauth_client_secret.value },
     ]
 
     mountPoints = [{
@@ -195,6 +200,13 @@ resource "aws_security_group" "jenkins_ecs" {
   }
 }
 
+data "aws_ssm_parameter" "google_oauth_client_id" {
+  name = var.google_oauth_client_id
+}
+
+data "aws_ssm_parameter" "google_oauth_client_secret" {
+  name = var.google_oauth_client_secret
+}
 
 # # セキュリティグループの定義
 # resource "aws_security_group" "jenkins_ecs_task" {
@@ -210,3 +222,6 @@ resource "aws_security_group" "jenkins_ecs" {
 #   }
 # }
 
+output "jenkins_url" {
+  value = "http://${var.jenkins_host}${var.jenkins_prefix}"
+}

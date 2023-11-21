@@ -19,3 +19,11 @@ resource "aws_ssm_parameter" "google_oauth_client_secret" {
     ignore_changes = [value]
   }
 }
+
+output "ssm_google_oauth_client_id" {
+  value = aws_ssm_parameter.google_oauth_client_id.name
+}
+
+output "ssm_google_oauth_client_secret" {
+  value = aws_ssm_parameter.google_oauth_client_secret.name
+}

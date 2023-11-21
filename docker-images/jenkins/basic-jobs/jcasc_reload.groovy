@@ -14,7 +14,7 @@ job('Reload-Configuration') {
   steps {
     // Groovyスクリプトを実行してJCasCの設定をリロード
     shell("""
-cp ./docker-images/jenkins/config/jenkins.yaml /var/jenkins_home/jenkins.yaml
+cp ./docker-images/jenkins/config/jenkins.yaml /var/jenkins_config/jenkins.yaml
 """)
 
     systemGroovyCommand("""

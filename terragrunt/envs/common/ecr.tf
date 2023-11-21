@@ -20,9 +20,6 @@ resource "aws_iam_policy" "read_only_access_jenkins" {
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
           "ecr:BatchCheckLayerAvailability",
-          # "ecr:ListImages",
-          # "ecr:DescribeImages",
-          # "ecr:GetRepositoryPolicy"
         ],
         Resource = aws_ecr_repository.jenkins.arn
       },
@@ -34,28 +31,6 @@ resource "aws_iam_policy" "read_only_access_jenkins" {
     ]
   })
 }
-
-# resource "aws_iam_role" "cross_account_ecr_role" {
-#   name = "CrossAccountECRAccessRole"
-
-#   assume_role_policy = jsonencode({
-#     Version = "2012-10-17",
-#     Statement = [
-#       {
-#         Effect = "Allow",
-#         Principal = {
-#           AWS = "arn:aws:iam::other-account-id:root"
-#         },
-#         Action = "sts:AssumeRole"
-#       }
-#     ]
-#   })
-# }
-
-# resource "aws_iam_role_policy_attachment" "ecr_cross_account_attach" {
-#   role       = aws_iam_role.cross_account_ecr_role.name
-#   policy_arn = aws_iam_policy.ecr_cross_account_access.arn
-# }
 
 output "jenkins_ecr_policy_arn" {
   value = aws_iam_policy.read_only_access_jenkins.arn

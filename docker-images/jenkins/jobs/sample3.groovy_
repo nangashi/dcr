@@ -1,4 +1,4 @@
-def pipelineScript = readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/job-dsl-scripts/pipeline-script/sample3-pipeline.groovy')
+def pipelineScript = readFileFromWorkspace('/usr/share/jenkins/ref/init.groovy.d/jobs/pipeline-script/sample3-pipeline.groovy')
 //def pipelineScript = readFileFromWorkspace('job-dsl-scripts/pipeline-script/sample3-pipeline.groovy')
 pipelineJob('example-pipeline-job') {
     definition {

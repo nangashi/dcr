@@ -3,7 +3,11 @@ include {
 }
 
 terraform {
-  source = "../../../modules/${path_relative_to_include()}"
+  source = "../../..//modules/${path_relative_to_include()}"
+}
+
+dependency "common" {
+  config_path = "../../common"
 }
 
 dependency "network" {
@@ -17,4 +21,7 @@ inputs = {
   target_group_arn = dependency.network.outputs.jenkins_target_group_arn
 
   jenkins_theme_color = "blue"
+  jenkins_host = dependency.network.outputs.dns_name
+  google_oauth_client_id = dependency.common.outputs.ssm_google_oauth_client_id
+  google_oauth_client_secret = dependency.common.outputs.ssm_google_oauth_client_secret
 }
