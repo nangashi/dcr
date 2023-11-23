@@ -15,9 +15,18 @@ basicJobsDir.eachFile { File file ->
   }
 }
 
-def jobsDir = new File('/usr/share/jenkins/ref/init.groovy.d/jobs/')
-if (jobsDir.exists()) {
-  jobsDir.eachFile { File file ->
+def operationJobsDir = new File('/usr/share/jenkins/ref/init.groovy.d/operation-jobs/')
+if (operationJobsDir.exists()) {
+  operationJobsDir.eachFile { File file ->
+    if (file.name.endsWith('.groovy')) {
+      scriptLoader.runScript(file.text)
+    }
+  }
+}
+
+def developJobsDir = new File('/usr/share/jenkins/ref/init.groovy.d/develop-jobs/')
+if (developJobsDir.exists()) {
+  developJobsDir.eachFile { File file ->
     if (file.name.endsWith('.groovy')) {
       scriptLoader.runScript(file.text)
     }

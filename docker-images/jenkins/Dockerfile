@@ -12,5 +12,5 @@ COPY ./config/plugins.txt /var/jenkins_config/plugins.txt
 RUN jenkins-plugin-cli --plugin-file /var/jenkins_config/plugins.txt
 
 # create job
-COPY ./script/create_job.groovy /usr/share/jenkins/ref/init.groovy.d/
-COPY ./basic-jobs /usr/share/jenkins/ref/init.groovy.d/basic-jobs
+COPY ./script/* /usr/share/jenkins/ref/init.groovy.d/
+COPY ./jobs/basic /usr/share/jenkins/ref/init.groovy.d/basic-jobs

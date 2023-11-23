@@ -34,14 +34,14 @@ resource "aws_lb_target_group" "jenkins_elb" {
   target_type = "ip"
   vpc_id   = aws_vpc.dc_vpc.id
 
-  health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 5
-    path                = "/"
-    interval            = 30
-    matcher             = "200"
-  }
+  # health_check {
+  #   healthy_threshold   = 2
+  #   unhealthy_threshold = 2
+  #   timeout             = 5
+  #   path                = "/"
+  #   interval            = 30
+  #   matcher             = "200"
+  # }
 }
 
 resource "aws_lb_listener" "jenkins_elb" {

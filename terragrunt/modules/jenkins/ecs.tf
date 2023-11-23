@@ -94,8 +94,8 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.jenkins_ecs_execution.arn
   task_role_arn = aws_iam_role.jenkins_task_execution.arn
-  cpu                      = 1024
-  memory                   = 2048
+  cpu                      = 2048
+  memory                   = 4096
 
   container_definitions = jsonencode([{
     name  = "jenkins"

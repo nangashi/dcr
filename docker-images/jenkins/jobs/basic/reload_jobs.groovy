@@ -12,17 +12,12 @@ job('Reload-Jobs') {
   }
 
   steps {
-    // Groovyスクリプトを実行してJCasCの設定をリロード
-    shell("""
-cp -r ./docker-images/jenkins/jobs /var/jenkins_home/jobs
-""")
-
     systemGroovyCommand("""
 import javaposse.jobdsl.dsl.DslScriptLoader
 import javaposse.jobdsl.plugin.JenkinsJobManagement
 
 // ディレクトリ内のGroovyファイルを列挙するためのパス
-def scriptsDir = new File('/var/jenkins_home/workspace/Reload-Jobs/docker-images/jenkins/jobs/')
+def scriptsDir = new File('/var/jenkins_home/jobs/Reload-Jobs/workspace/docker-images/jenkins/jobs/operation/')
 def workspace = new File('.')
 
 def jobManagement = new JenkinsJobManagement(System.out, [:], workspace)
@@ -35,5 +30,6 @@ scriptsDir.eachFile { File file ->
     }
 }
 """)
+    // systemGroovyCommand(readFileFromWorkspace("/usr/share/jenkins/ref/init.groovy.d/basic-jobs/reload_jobs.groovy-command"))
   }
 }

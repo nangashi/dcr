@@ -94,6 +94,8 @@ globalCredentialsConfiguration:
     providerFilter: "none"
     typeFilter: "none"
 appearance:
+  # prism:
+    # theme: PRISM
   simpleTheme:
     elements:
     - cssUrl:
@@ -108,14 +110,15 @@ security:
     allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  # not working
   # globalJobDslSecurityConfiguration:
-    # useScriptSecurity: true
+    # useScriptSecurity: false
   sSHD:
     port: -1
-  scriptApproval:
-    approvedScriptHashes:
-    - "SHA512:ca92443d2e7b2639a00c7987d095d0f0e6614aac64e75cbc01290b5428048df9751de626bf1dffdaec728112ec4d5c9f0536943eda9a5f2baa13eb5195f25777"
-    - "SHA512:d94f9fe292bc07632e9e017fbcb85f3de3d3f2cc3496fb32223127a296d29e2c3f393a5457ab7e49a67bdfe9b6b43a2487d85d6fa4c545ea5cfdf22c1da6fb87"
+  # scriptApproval:
+  #   approvedScriptHashes:
+  #   - "SHA512:9795f5b80bb52171d367a7aa3ea2a42f5e62605d157da3880db658a421afacaef63b47f8b8a0a9f6ea7ccdcd134413589738afc3680210427935fd275c37d946"
+  #   - "SHA512:d94f9fe292bc07632e9e017fbcb85f3de3d3f2cc3496fb32223127a296d29e2c3f393a5457ab7e49a67bdfe9b6b43a2487d85d6fa4c545ea5cfdf22c1da6fb87"
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
@@ -134,8 +137,6 @@ unclassified:
     useTls: false
   pollSCM:
     pollingThreadCount: 10
-  # prismConfiguration:
-    # theme: PRISM
   scmGit:
     addGitTagAction: false
     allowSecondFetch: false
