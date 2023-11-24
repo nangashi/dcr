@@ -23,6 +23,5 @@ import io.jenkins.plugins.casc.ConfigurationAsCode;
 def path = "/var/jenkins_home/jenkins.yaml"
 ConfigurationAsCode.get().configure(path)
 """)
-    // systemGroovyCommand(readFileFromWorkspace("/usr/share/jenkins/ref/init.groovy.d/basic-jobs/reload_config.groovy-command"))
   }
 }

@@ -1,4 +1,0 @@
-import io.jenkins.plugins.casc.ConfigurationAsCode;
-
-def path = "/var/jenkins_home/jenkins.yaml"
-ConfigurationAsCode.get().configure(path)
