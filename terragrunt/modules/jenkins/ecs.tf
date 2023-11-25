@@ -167,7 +167,7 @@ resource "aws_ecs_service" "jenkins_ecs" {
   }
 
   network_configuration {
-    subnets         = var.private_subnet_ids
+    subnets         = [var.private_subnet_ids[0]]
     security_groups = [aws_security_group.jenkins_ecs.id]
     # assign_public_ip = true
   }
