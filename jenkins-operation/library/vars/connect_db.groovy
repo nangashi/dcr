@@ -2,7 +2,7 @@ package com.example
 
 import groovy.sql.Sql
 
-// class MySqlHelper {
+class MySqlHelper {
 //   // private Sql sql
 
 //   // MySqlHelper() {
@@ -32,4 +32,4 @@ import groovy.sql.Sql
   }
 
   // トランザクション処理のメソッドは必要に応じて追加
-// }
+}
