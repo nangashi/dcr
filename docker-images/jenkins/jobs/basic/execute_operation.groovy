@@ -10,7 +10,7 @@ pipelineJob('execute-operation') {
             url('https://github.com/nangashi/dcr.git')
           }
           branches('*/feature/jenkins')
-          scriptPath('jenkins-operation/${JENKINSFILE}.groovy')
+          scriptPath('jenkins-operation/tasks/${JENKINSFILE}.groovy')
         }
       }
     }
