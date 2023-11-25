@@ -10,7 +10,8 @@ class MySqlHelper {
     String url = 'jdbc:mysql://your-db-url:3306/your-db'
     String user = 'your-username'
     String password = 'your-password'
-    this.sql = Sql.newInstance(url, user, password, 'com.mysql.cj.jdbc.Driver')
+    // this.sql = Sql.newInstance(url, user, password, 'com.mysql.cj.jdbc.Driver')
+    this.sql = null
   }
 
   def executeQuery(String query) {
