@@ -1,23 +1,13 @@
+@Library('libs@feature/jenkins') _
 pipeline {
   agent any
-
   stages {
-    stage('Build') {
+    stage('Query Database') {
       steps {
-        echo 'Building...'
-        // ビルドコマンドをここに追加
-      }
-    }
-    stage('Test') {
-      steps {
-        echo 'Testing...'
-        // テストコマンドをここに追加
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploying...'
-        // デプロイコマンドをここに追加
+        script {
+          def result = connect_db.executeQuery('SELECT * FROM your_table')
+          echo "Query result: ${result}"
+        }
       }
     }
   }

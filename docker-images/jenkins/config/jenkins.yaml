@@ -126,6 +126,18 @@ unclassified:
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
+  globalLibraries:
+    libraries:
+    - name: "libs"
+      retriever:
+        modernSCM:
+          libraryPath: "./jenkins-operation/library/"
+          scm:
+            git:
+              id: "a038f6d1-93c7-4865-9858-38daffb0d9db"
+              remote: "https://github.com/nangashi/dcr.git"
+              traits:
+              - "gitBranchDiscovery"
   junitTestResultStorage:
     storage: "file"
   location:

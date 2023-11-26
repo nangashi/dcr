@@ -14,3 +14,9 @@ RUN jenkins-plugin-cli --plugin-file /var/jenkins_config/plugins.txt
 # create job
 COPY ./script/* /usr/share/jenkins/ref/init.groovy.d/
 COPY ./jobs/basic/ /usr/share/jenkins/ref/init.groovy.d/basic-jobs/
+
+#
+USER root
+RUN mkdir -p /tmp/WEB-INF/lib/
+COPY ./libs/mysql-connector-j-8.0.33.jar /tmp/WEB-INF/lib/
+RUN cd /tmp && jar -uvf /usr/share/jenkins/jenkins.war WEB-INF/lib/mysql-connector-j-8.0.33.jar && rm -rf WEB-INF/
