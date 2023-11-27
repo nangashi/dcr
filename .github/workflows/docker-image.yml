@@ -1,0 +1,28 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+    paths:
+      - 'jenkins/docker-image/**'
+  pull_request:
+    types: [closed]
+    branches:
+      - 'feature/*'
+    paths:
+      - 'jenkins/docker-image/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      run: |
+        cd jenkins/docker-image
+        make
+        make push
