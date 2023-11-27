@@ -18,9 +18,11 @@ variable "elb_arn" {}
 variable "elb_hostname" {}
 
 # jenkins parameter
+variable "ecr_immutable" {
+  type = bool
+}
 variable "git_repository" {}
 variable "git_branch" {}
 variable "current_tag" {}
 variable "jenkins_theme_color" {}
 variable "jenkins_url_prefix" {}
-
