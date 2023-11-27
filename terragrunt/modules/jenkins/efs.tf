@@ -9,15 +9,13 @@ resource "aws_efs_file_system" "jenkins_efs" {
   }
 
   tags = {
-    Name = "jenkins-efs-${var.env}"  # タグを任意の値に設定してください
+    Name = "jenkins-efs-${var.system}-${var.env}"  # タグを任意の値に設定してください
   }
 }
 
 resource "aws_efs_mount_target" "jenkins_efs" {
-  for_each = toset(var.private_subnet_ids)
-
   file_system_id  = aws_efs_file_system.jenkins_efs.id
-  subnet_id       = each.value
+  subnet_id       = var.private_subnet_ids[0]
   security_groups = [aws_security_group.jenkins_efs.id]
 }
 
@@ -71,4 +69,22 @@ resource "aws_efs_access_point" "jenkins_efs" {
       permissions = "755"
     }
   }
+}
+
+resource "aws_iam_policy" "jenkins_efs_mount" {
+  name        = "jenkins-task-policy-${var.env}"  # ポリシー名を指定してください
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "elasticfilesystem:ClientMount",
+          "elasticfilesystem:ClientWrite",
+        ],
+        Resource = aws_efs_access_point.jenkins_efs.arn
+      }
+    ]
+  })
 }

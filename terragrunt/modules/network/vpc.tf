@@ -23,7 +23,7 @@ resource "aws_subnet" "public" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.dc_vpc.id
   tags = {
-    Name = "rtb-public-${var.env}"
+    Name = "rtb-public-${var.system}-${var.env}"
   }
 }
 
@@ -42,14 +42,14 @@ resource "aws_subnet" "private" {
   cidr_block = each.value.cidr_block
   availability_zone = each.value.availability_zone
   tags = {
-    Name = "sbn-public-${var.env}"
+    Name = "sbn-public-${var.system}-${var.env}"
   }
 }
 
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.dc_vpc.id
   tags = {
-    Name = "rtb-private-${var.env}"
+    Name = "rtb-private-${var.system}-${var.env}"
   }
 }
 

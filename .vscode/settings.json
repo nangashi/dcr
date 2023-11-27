@@ -13,4 +13,5 @@
     "editor.formatOnSave": true,
     "editor.autoIndent": "full"
   },
+  "editor.codeLens": false
 }

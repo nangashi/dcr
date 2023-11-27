@@ -1,16 +1,12 @@
 {
   "folders": [
     {
-      "name": "root",
+      "name": "Root",
       "path": "."
     },
     {
-      "name": "Terraform",
+      "name": "Terragrunt",
       "path": "terragrunt"
-    },
-    {
-      "name": "DockerImages",
-      "path": "docker-images"
     },
   ],
   "settings": {

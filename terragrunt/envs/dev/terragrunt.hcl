@@ -7,12 +7,6 @@ locals {
 
   git_repository = "https://github.com/nangashi/dcr.git"
   git_branch = "feature/jenkins"
-
-  jenkins_prefix = "/jenkins"
-}
-
-dependency "common" {
-  config_path = "../../common"
 }
 
 remote_state {
@@ -49,5 +43,4 @@ generate "provider" {
 skip = true
 
 inputs = merge(local, {
-  jenkins_ecr_policy_arn = dependency.common.outputs.jenkins_ecr_policy_arn
 })

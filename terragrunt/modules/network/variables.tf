@@ -1,9 +1,9 @@
-variable "account" {}
+# from base
+variable "system" {}
 variable "env" {}
 
-variable "vpc_cidr_block" {
-  type = string
-}
+# network configuration
+variable "vpc_cidr_block" {}
 
 variable "public_subnets" {
   type = map(
@@ -13,6 +13,7 @@ variable "public_subnets" {
     }
   ))
 }
+
 variable "private_subnets" {
   type = map(
     object({
@@ -20,8 +21,4 @@ variable "private_subnets" {
       availability_zone = string
     }
   ))
-}
-
-variable "jenkins_prefix" {
-  type = string
 }
