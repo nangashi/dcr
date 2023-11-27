@@ -1,0 +1,30 @@
+pipelineJob('example-pipeline-job') {
+    definition {
+        cps {
+            script("""
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                // ここにビルドのステップを追加
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                // ここにテストのステップを追加
+            }
+        }
+    }
+}
+            """)
+            sandbox(true)
+        }
+    }
+    triggers {
+        cron('H */4 * * *') // 4時間ごとにビルド
+    }
+}

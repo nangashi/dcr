@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "."
+    },
+    {
+      "name": "Terragrunt",
+      "path": "terragrunt"
+    },
+  ],
+  "settings": {
+    "files.exclude": {
+      "terragrunt/": true,
+      "docker-images/": true,
+      "**/.terragrunt-cache": true,
+      "**/.terraform.lock.hcl": true,
+    }
+  },
+  "extensions": {}
+}

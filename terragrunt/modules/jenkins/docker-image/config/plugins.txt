@@ -1,0 +1,14 @@
+configuration-as-code:1737.v652ee9b_a_e0d9
+git:5.2.1
+google-login:1.8
+groovy:457.v99900cb_85593
+job-dsl:1.87
+pipeline-stage-view:2.34
+role-strategy:689.v731678c3e0eb_
+simple-theme-plugin:176.v39740c03a_a_f5
+slack:684.v833089650554
+validating-string-parameter:183.v3748e79b_9737
+workflow-aggregator:596.v8c21c963d92d
+workflow-cps:3806.va_3a_6988277b_2
+workflow-job:1360.vc6700e3136f5
+xml-job-to-job-dsl:0.1.13

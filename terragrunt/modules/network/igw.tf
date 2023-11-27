@@ -1,7 +1,7 @@
 resource "aws_internet_gateway" "dc_igw" {
   vpc_id = aws_vpc.dc_vpc.id
   tags = {
-    Name = "igw-${var.env}"
+    Name = "igw-${var.system}-${var.env}"
   }
 }
 
@@ -15,13 +15,16 @@ resource "aws_route" "igw" {
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public["subnet1"].id
+  tags = {
+    Name = "nat-${var.system}-${var.env}"
+  }
 }
 
 resource "aws_eip" "nat_eip" {
   domain = "vpc"
 
   tags = {
-    Name = "jenkins-ecs-nat-${var.env}"
+    Name = "eip-nat-${var.system}-${var.env}"
   }
 }
 

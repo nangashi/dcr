@@ -4,6 +4,9 @@ locals {
   account = "384081048358"
   # システム名
   system = "dcr"
+
+  git_repository = "https://github.com/nangashi/dcr.git"
+  git_branch = "feature/jenkins"
 }
 
 remote_state {
@@ -26,6 +29,7 @@ generate "provider" {
   if_exists = "overwrite"
   contents  = <<EOF
     provider "aws" {
+      region = "ap-northeast-1"
       default_tags {
         tags = {
           ManagedBy = "Terraform"

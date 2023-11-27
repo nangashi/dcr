@@ -8,5 +8,10 @@
     "**/Thumbs.db": true,
     "**/.terraform.lock.hcl": true,
     "**/.terragrunt-cache": true
-  }
+  },
+  "[terraform]": {
+    "editor.formatOnSave": true,
+    "editor.autoIndent": "full"
+  },
+  "editor.codeLens": false
 }

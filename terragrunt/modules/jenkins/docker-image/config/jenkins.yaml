@@ -1,0 +1,170 @@
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    roleBased:
+      roles:
+        global:
+        - entries:
+          - user: "admin"
+          - user: "tagjmp@gmail.com"
+          name: "admin"
+          pattern: ".*"
+          permissions:
+          - "Overall/Administer"
+        - entries:
+          - user: "user"
+          name: "job-runner"
+          pattern: ".*"
+          permissions:
+          - "Job/Cancel"
+          - "Overall/Read"
+          - "Job/Build"
+          - "Run/Update"
+          - "View/Create"
+          - "View/Delete"
+          - "Job/Read"
+          - "View/Read"
+          - "View/Configure"
+          - "Run/Replay"
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  labelAtoms:
+  - name: "built-in"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  # remotingSecurity:
+    # enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    googleOAuth2:
+      clientId: "${GOOGLE_OAUTH2_CLIENT_ID}"
+      clientSecret: "${GOOGLE_OAUTH2_CLIENT_SECRET}"
+    # local:
+    #   allowsSignup: false
+    #   enableCaptcha: false
+    #   users:
+    #   - id: "admin"
+    #     name: "admin"
+    #     password: "admin"
+    #     properties:
+    #     - "myView"
+    #     - preferredProvider:
+    #         providerId: "default"
+    #     - "slack"
+    #     - "timezone"
+    #     - "experimentalFlags"
+    #     - mailer:
+    #         emailAddress: "a@b.c"
+    #     - "apiToken"
+    #   - id: "user"
+    #     name: "test"
+    #     password: "user"
+    #     properties:
+    #     - "apiToken"
+    #     - "myView"
+    #     - preferredProvider:
+    #         providerId: "default"
+    #     - "slack"
+    #     - "timezone"
+    #     - "experimentalFlags"
+    #     - mailer:
+    #         emailAddress: "a@b.c"
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+appearance:
+  # prism:
+    # theme: PRISM
+  simpleTheme:
+    elements:
+    - cssUrl:
+        url: "https://jenkins-themes.alefnode.com/dist/material-${JENKINS_THEME_COLOR}.css"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  # not working
+  # globalJobDslSecurityConfiguration:
+    # useScriptSecurity: false
+  sSHD:
+    port: -1
+  # scriptApproval:
+  #   approvedScriptHashes:
+  #   - "SHA512:9795f5b80bb52171d367a7aa3ea2a42f5e62605d157da3880db658a421afacaef63b47f8b8a0a9f6ea7ccdcd134413589738afc3680210427935fd275c37d946"
+  #   - "SHA512:d94f9fe292bc07632e9e017fbcb85f3de3d3f2cc3496fb32223127a296d29e2c3f393a5457ab7e49a67bdfe9b6b43a2487d85d6fa4c545ea5cfdf22c1da6fb87"
+unclassified:
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  globalLibraries:
+    libraries:
+    - name: "libs"
+      retriever:
+        modernSCM:
+          libraryPath: "./jenkins-operation/library/"
+          scm:
+            git:
+              id: "a038f6d1-93c7-4865-9858-38daffb0d9db"
+              remote: "https://github.com/nangashi/dcr.git"
+              traits:
+              - "gitBranchDiscovery"
+  junitTestResultStorage:
+    storage: "file"
+  location:
+  #   adminAddress: "まだアドレスが設定されていません。 <nobody@nowhere>"
+    url: "${JENKINS_URL}"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  slackNotifier:
+    botUser: false
+    sendAsText: false
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
