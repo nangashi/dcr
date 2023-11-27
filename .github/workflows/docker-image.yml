@@ -5,13 +5,13 @@ on:
     branches:
       - 'feature/*'
     paths:
-      - 'jenkins/docker-image/**'
+      - 'terragrunt/modules/jenkins/docker-image/**'
   pull_request:
     types: [closed]
     branches:
       - 'feature/*'
     paths:
-      - 'jenkins/docker-image/**'
+      - 'terragrunt/modules/jenkins/docker-image/**'
 
 jobs:
   build:
@@ -23,6 +23,6 @@ jobs:
 
     - name: Build and push Docker image2
       run: |
-        cd jenkins/docker-image
+        cd terragrunt/modules/jenkins/docker-image/
         make
         make push
