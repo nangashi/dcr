@@ -3,7 +3,7 @@ REPOSITORY=384081048358.dkr.ecr.ap-northeast-1.amazonaws.com
 IMAGE=$(REPOSITORY)/jenkins
 # Docker image tag
 TAG=$(shell grep 'current_tag =' ../terraform.tfvars | sed -n 's/.*current_tag = "\([^"]*\)".*/\1/p')
-# Dockerfile location
+# Dockerfile location.
 DOCKERFILE=Dockerfile
 
 # Default target
