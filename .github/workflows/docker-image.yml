@@ -20,6 +20,9 @@ jobs:
       (github.ref == 'refs/heads/main' && 'production') ||
       (github.ref == 'refs/heads/staging' && 'staging') || 'development' }}
     steps:
+    - name: test
+      run: echo "${{ github.ref }}"
+
     - name: Checkout code
       uses: actions/checkout@v2
 
