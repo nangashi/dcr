@@ -16,7 +16,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+    # environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+    environment: development
     steps:
     - name: Show env
       run: echo "env=${{ job.envrionment }}"
