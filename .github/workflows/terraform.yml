@@ -5,8 +5,8 @@ on:
     branches-ignore:
       - 'main'
       - 'staging'
-    paths:
-      - 'terragrunt/modules/**'
+    # paths:
+    #   - 'terragrunt/modules/**'
 
 jobs:
   build:
