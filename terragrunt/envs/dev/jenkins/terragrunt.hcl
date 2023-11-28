@@ -24,4 +24,6 @@ inputs = {
   # from infrastructure
   ssm_google_oauth_client_id = dependency.infrastructure.outputs.ssm_google_oauth_client_id
   ssm_google_oauth_client_secret = dependency.infrastructure.outputs.ssm_google_oauth_client_secret
+  # jenkins configuration
+  ecr_immutable = false
 }

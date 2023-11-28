@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "jenkins_ecr" {
   name                 = "jenkins"
-  image_tag_mutability = "IMMUTABLE"
+  image_tag_mutability = var.ecr_immutable ? "IMMUTABLE" : "MUTABLE"
   force_delete         = true
 
   image_scanning_configuration {
