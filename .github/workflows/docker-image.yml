@@ -21,7 +21,7 @@ jobs:
       'development'}}
     steps:
     - name: Show env
-      run: echo "env=${ job.envrionment }"
+      run: echo "env=${{ job.envrionment }}"
 
     - name: Checkout code
       uses: actions/checkout@v2
