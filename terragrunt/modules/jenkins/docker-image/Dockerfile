@@ -1,11 +1,12 @@
-FROM jenkins/jenkins:2.433
+FROM jenkins/jenkins:2.433-alpine
 
 ENV TZ="Asia/Tokyo"
 ENV CASC_JENKINS_CONFIG="/var/jenkins_config/jenkins.yaml"
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
+# update package
 USER root
-RUN apt update && apt dist-upgrade && apt autoremove
+RUN apk update && apk upgrade
 USER jenkins
 
 # copy jcasc config

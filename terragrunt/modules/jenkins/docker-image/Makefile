@@ -1,4 +1,6 @@
+AWS_ACCOUNT_ID?=384081048358
 REPOSITORY=$(AWS_ACCOUNT_ID).dkr.ecr.ap-northeast-1.amazonaws.com
+
 # Docker image name
 IMAGE=$(REPOSITORY)/jenkins
 # Docker image tag

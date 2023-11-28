@@ -8,6 +8,28 @@ resource "aws_ecr_repository" "jenkins_ecr" {
   }
 }
 
+resource "aws_ecr_lifecycle_policy" "jenkins_ecr_lifecycle_policy" {
+  repository = aws_ecr_repository.jenkins_ecr.name
+
+  policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1
+        description  = "Expire untagged images"
+        selection = {
+          tagStatus = "untagged"
+          countType = "sinceImagePushed"
+          countUnit = "days"
+          countNumber = 1
+        }
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy" "jenkins_ecr_read_only_access" {
   name        = "ECRReadOnlyAccessForJenkins"
   description = "Policy to allow read-only access to a specific ECR repository"
