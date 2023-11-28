@@ -2,11 +2,10 @@ name: terraform docs
 
 on:
   pull_request:
-    # branches-ignore:
-    #   - 'main'
-    #   - 'staging'
-    # paths:
-    #   - 'terragrunt/modules/**'
+    branches:
+      - main
+    paths:
+      - terragrunt/modules/**
 
 jobs:
   build:
@@ -29,4 +28,4 @@ jobs:
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
-        message: 'update terraform doc.'
+        message: 'Terraform Doc is updated.'
