@@ -1,0 +1,25 @@
+name: terraform docs
+
+on:
+  pull_request:
+    branches-ignore:
+      - 'main'
+      - 'staging'
+    paths:
+      - 'terragrunt/modules/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Render terraform docs and push changes back to PR
+      uses: terraform-docs/gh-actions@main
+      with:
+        find-dir: terragrunt/modules/
+        output-file: README.md
+        output-method: inject
+        git-push: "true"

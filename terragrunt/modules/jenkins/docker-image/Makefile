@@ -1,4 +1,6 @@
-REPOSITORY=$(AWS_ACCOUND_ID).dkr.ecr.ap-northeast-1.amazonaws.com
+AWS_ACCOUNT_ID?=384081048358
+REPOSITORY=$(AWS_ACCOUNT_ID).dkr.ecr.ap-northeast-1.amazonaws.com
+
 # Docker image name
 IMAGE=$(REPOSITORY)/jenkins
 # Docker image tag
@@ -16,6 +18,7 @@ build:
 # Run Docker image
 run:
 	docker run --rm \
+		--name jenkins \
 		-p 8080:8080 \
 		-e JENKINS_THEME_COLOR=blue \
 		-e JENKINS_URL=http://localhost:8080/ \
