@@ -19,6 +19,7 @@ jobs:
     # environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
     environment:
       name: development
+      url: https://yahoo.co.jp
     steps:
     - name: Show env
       run: echo "env=${{ job.envrionment }}"
