@@ -16,7 +16,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+    environment: ${{
+      (github.ref == 'refs/heads/main' && 'production') ||
+      (github.ref == 'refs/heads/staging' && 'staging') || 'development' }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
