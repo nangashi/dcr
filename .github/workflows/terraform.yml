@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout target branch
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
 
     - name: Render terraform docs and push changes back to PR
       uses: terraform-docs/gh-actions@main
