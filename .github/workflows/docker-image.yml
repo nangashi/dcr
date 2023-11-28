@@ -16,12 +16,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
-    environment: development
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
     steps:
-    # - name: Show env
-    #   run: echo "env=${{ secrets.AWS_ACCOUNT_ID }}"
-
     - name: Checkout code
       uses: actions/checkout@v2
 
