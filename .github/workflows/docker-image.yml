@@ -12,8 +12,10 @@ jobs:
       (github.ref == 'refs/heads/main' && 'production') ||
       (github.ref == 'refs/heads/staging' && 'staging') || 'development' }}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout target branch
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
 
     - name: Set up AWS credentials for dev
       uses: aws-actions/configure-aws-credentials@v1

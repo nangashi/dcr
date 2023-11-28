@@ -25,3 +25,9 @@ jobs:
         output-file: README.md
         output-method: inject
         git-push: "true"
+
+    - name: Add comment to PR
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        message: 'update terraform doc.'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
