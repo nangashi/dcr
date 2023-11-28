@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.431
+FROM jenkins/jenkins:2.433
 
 ENV TZ="Asia/Tokyo"
 ENV CASC_JENKINS_CONFIG="/var/jenkins_config/jenkins.yaml"
