@@ -34,7 +34,7 @@ jobs:
         aws-region: ap-northeast-1
 
     - name: Set up secret for dev
-      run: echo "AWS_ACCOUND_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
+      run: echo "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
 
     - name: Build and push Docker image2
       run: |
