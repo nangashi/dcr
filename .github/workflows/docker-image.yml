@@ -24,7 +24,15 @@ jobs:
       run: echo "${{ github.ref }}"
 
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+
+    - name: Render terraform docs and push changes back to PR
+      uses: terraform-docs/gh-actions@main
+      with:
+        working-dir: terragrunt/modules/
+        output-file: README.md
+        output-method: inject
+        git-push: "true"
 
     - name: Set up AWS credentials for dev
       uses: aws-actions/configure-aws-credentials@v1
