@@ -3,7 +3,7 @@ resource "aws_lb" "dc_elb" {
   name               = "elb-${var.system}-${var.env}"
   internal           = false
   load_balancer_type = "application"
-  subnets            = [ for key, subnet in aws_subnet.public : subnet.id ]
+  subnets            = [for key, subnet in aws_subnet.public : subnet.id]
   security_groups    = [aws_security_group.dc_elb.id]
 }
 

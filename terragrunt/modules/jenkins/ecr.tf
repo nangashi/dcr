@@ -17,9 +17,9 @@ resource "aws_ecr_lifecycle_policy" "jenkins_ecr_lifecycle_policy" {
         rulePriority = 1
         description  = "Expire untagged images"
         selection = {
-          tagStatus = "untagged"
-          countType = "sinceImagePushed"
-          countUnit = "days"
+          tagStatus   = "untagged"
+          countType   = "sinceImagePushed"
+          countUnit   = "days"
           countNumber = 1
         }
         action = {
@@ -47,8 +47,8 @@ resource "aws_iam_policy" "jenkins_ecr_read_only_access" {
         Resource = aws_ecr_repository.jenkins_ecr.arn
       },
       {
-        Effect = "Allow",
-        Action = "ecr:GetAuthorizationToken",
+        Effect   = "Allow",
+        Action   = "ecr:GetAuthorizationToken",
         Resource = "*"
       }
     ]

@@ -1,17 +1,27 @@
-{
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/.terraform.lock.hcl": true,
-    "**/.terragrunt-cache": true
-  },
-  "[terraform]": {
-    "editor.formatOnSave": true,
-    "editor.autoIndent": "full"
-  },
-  "editor.codeLens": false
-}
+// {
+//   "files.exclude": {
+//     "**/.git": true,
+//     "**/.svn": true,
+//     "**/.hg": true,
+//     "**/CVS": true,
+//     "**/.DS_Store": true,
+//     "**/Thumbs.db": true,
+//     "**/.terraform.lock.hcl": true,
+//     "**/.terragrunt-cache": true
+//   },
+//   "editor.formatOnSave": true,
+//   "[terraform]": {
+//     "editor.defaultFormatter": "hashicorp.terraform",
+//     "editor.formatOnSave": false,
+//     "editor.codeActionsOnSave": {
+//       "source.formatAll.terraform": true
+//     },
+//   },
+//   "[terraform-vars]": {
+//     "editor.defaultFormatter": "hashicorp.terraform",
+//     "editor.formatOnSave": false,
+//     "editor.codeActionsOnSave": {
+//       "source.formatAll.terraform": true
+//     },
+//   },
+// }

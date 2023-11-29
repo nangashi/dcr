@@ -4,11 +4,11 @@ resource "aws_lb_listener" "jenkins_elb" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "fixed-response"
+    type = "fixed-response"
     fixed_response {
       content_type = "text/plain"
       message_body = ""
-      status_code = "403"
+      status_code  = "403"
     }
   }
 }
@@ -31,11 +31,11 @@ resource "aws_lb_listener_rule" "jenkins_elb" {
 
 # Google Loginを入れるとヘルスチェックで403になるため、403は正常なレスポンスとみなす
 resource "aws_lb_target_group" "jenkins_elb" {
-  name     = "jenkins-tg-${var.env}"
-  port     = 8080
-  protocol = "HTTP"
+  name        = "jenkins-tg-${var.env}"
+  port        = 8080
+  protocol    = "HTTP"
   target_type = "ip"
-  vpc_id   = var.vpc_id
+  vpc_id      = var.vpc_id
 
   health_check {
     healthy_threshold   = 2

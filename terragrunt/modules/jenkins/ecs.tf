@@ -14,8 +14,8 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
   memory                   = 4096
 
   container_definitions = jsonencode([{
-    name  = "jenkins"
-    image = "${aws_ecr_repository.jenkins_ecr.repository_url}:${var.current_tag}"
+    name      = "jenkins"
+    image     = "${aws_ecr_repository.jenkins_ecr.repository_url}:${var.current_tag}"
     essential = true
     portMappings = [{
       containerPort = 8080
@@ -37,11 +37,11 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
       containerPath = "/var/jenkins_home"
     }]
 
-    logConfiguration  = {
+    logConfiguration = {
       logDriver = "awslogs"
       options = {
-        awslogs-group = aws_cloudwatch_log_group.jenkins_ecs_log.name
-        awslogs-region = "ap-northeast-1"
+        awslogs-group         = aws_cloudwatch_log_group.jenkins_ecs_log.name
+        awslogs-region        = "ap-northeast-1"
         awslogs-stream-prefix = "jenkins-ecs-${var.system}-${var.env}"
       }
     }
@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
       transit_encryption_port = 2049
       authorization_config {
         access_point_id = aws_efs_access_point.jenkins_efs.id
-        iam = "ENABLED"
+        iam             = "ENABLED"
       }
     }
   }
@@ -103,10 +103,10 @@ resource "aws_security_group" "jenkins_ecs" {
   }
 
   egress {
-      from_port       = 0
-      to_port         = 0
-      protocol        = "-1"
-      cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 

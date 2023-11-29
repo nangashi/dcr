@@ -15,7 +15,34 @@
       "docker-images/": true,
       "**/.terragrunt-cache": true,
       "**/.terraform.lock.hcl": true,
-    }
+    },
+    "editor.formatOnSave": true,
+    "[terraform]": {
+      "editor.defaultFormatter": "hashicorp.terraform",
+      "editor.formatOnSave": false,
+      "editor.codeActionsOnSave": {
+        "source.formatAll.terraform": true
+      },
+    },
+    "[terraform-vars]": {
+      "editor.defaultFormatter": "hashicorp.terraform",
+      "editor.formatOnSave": false,
+      "editor.codeActionsOnSave": {
+        "source.formatAll.terraform": true
+      },
+    },
+    "editor.codeLens": false, // コード内のblame無効化
   },
-  "extensions": {}
+  "extensions": {
+    "recommendations": [
+      // basic
+      "editorconfig.editorconfig",
+      "oderwat.indent-rainbow",
+      "saikou9901.evilinspector",
+      "shardulm94.trailing-spaces",
+      // terraform
+      "hashicorp.terraform",
+      "hashicorp.hcl",
+    ]
+  }
 }
