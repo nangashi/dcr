@@ -1,4 +1,4 @@
-# ECSクラスターの定義
+# ECSクラスターの定義.
 resource "aws_ecs_cluster" "jenkins_ecs" {
   name = "jenkins-cluster-${var.system}-${var.env}"
 }

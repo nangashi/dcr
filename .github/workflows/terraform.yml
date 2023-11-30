@@ -18,14 +18,16 @@ jobs:
         ref: ${{ github.head_ref }}
 
     - name: Render terraform docs and push changes back to PR
+      id: terraform-docs
       uses: terraform-docs/gh-actions@main
       with:
         find-dir: terragrunt/modules/
         output-file: README.md
         output-method: inject
         git-push: "true"
+        git-commit-message: "update terraform docs"
 
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
-        message: 'Terraform Docs is updated.'
+        message: 'Terraform Docs is updated.(${{ steps.terraform-docs.outputs.num_changed }})'
