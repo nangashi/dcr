@@ -52,7 +52,7 @@ No modules.
 | <a name="input_ecr_immutable"></a> [ecr\_immutable](#input\_ecr\_immutable) | jenkins parameter | `bool` | n/a | yes |
 | <a name="input_elb_arn"></a> [elb\_arn](#input\_elb\_arn) | n/a | `string` | n/a | yes |
 | <a name="input_elb_hostname"></a> [elb\_hostname](#input\_elb\_hostname) | n/a | `string` | n/a | yes |
-| <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
+| <a name="input_env"></a> [env](#input\_env) | 環境名 | `string` | n/a | yes |
 | <a name="input_git_branch"></a> [git\_branch](#input\_git\_branch) | n/a | `string` | n/a | yes |
 | <a name="input_git_repository"></a> [git\_repository](#input\_git\_repository) | n/a | `string` | n/a | yes |
 | <a name="input_jenkins_theme_color"></a> [jenkins\_theme\_color](#input\_jenkins\_theme\_color) | n/a | `string` | n/a | yes |
@@ -61,7 +61,7 @@ No modules.
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
 | <a name="input_ssm_google_oauth_client_id"></a> [ssm\_google\_oauth\_client\_id](#input\_ssm\_google\_oauth\_client\_id) | from infrastructure | `string` | n/a | yes |
 | <a name="input_ssm_google_oauth_client_secret"></a> [ssm\_google\_oauth\_client\_secret](#input\_ssm\_google\_oauth\_client\_secret) | n/a | `string` | n/a | yes |
-| <a name="input_system"></a> [system](#input\_system) | from base | `string` | n/a | yes |
+| <a name="input_system"></a> [system](#input\_system) | システム名 | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | from network | `string` | n/a | yes |
 
 ## Outputs
