@@ -23,15 +23,21 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
 
-    # - name: Render terraform docs and push changes back to PR
-    #   id: terraform-docs
-    #   uses: terraform-docs/gh-actions@main
-    #   with:
-    #     find-dir: terragrunt/modules/
-    #     output-file: README.md
-    #     output-method: inject
-    #     git-push: true
-    #     git-commit-message: update terraform docs
+    - name: Setup Terragrunt
+      uses: autero1/action-terragrunt@v1.1.0
+      with:
+        terragrunt_version: latest
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Render terraform docs and push changes back to PR
+      id: terraform-docs
+      uses: terraform-docs/gh-actions@main
+      with:
+        find-dir: terragrunt/modules/
+        output-file: README.md
+        output-method: inject
+        git-push: true
+        git-commit-message: update terraform docs
 
     # - name: Add comment to PR
     #   if: steps.terraform-docs.outputs.num_changed > 0
@@ -41,43 +47,39 @@ jobs:
 
     - name: Terraform Format
       id: fmt
-      # run: |
-      #   echo 'STDOUT<<EOF' >> "$GITHUB_ENV"
-      #   terraform fmt -check -recursive -diff >> "$GITHUB_ENV"
-      #   echo 'EOF' >> "$GITHUB_ENV"
-      # working-directory: terragrunt/modules/
       uses: gh640/command-result-action@v1
       with:
         command: terraform fmt -check -recursive -diff
         cwd: terragrunt/modules/
       continue-on-error: true
 
-    # - run: echo "${{ toJSON(steps) }}"
-    # - run: echo '${{ toJSON(steps.fmt) }}'
-    # - run: echo '${{ toJSON(steps.fmt.outputs) }}'
-    # - run: echo ${{ env.STDOUT }}
-    # - run: echo $STDOUT
-    # - run: echo ${{ steps.fmt.outputs.exitcode }}
-    # # - run: echo ${{ steps.terraform-docs.outputs.num_changed }}
-    # # - run: echo ${{ steps.terraform-docs.outputs }}
+    - name: Terraform init
+      id: init
+      uses: gh640/command-result-action@v1
+      with:
+        command: terragrunt init
+        cwd: terragrunt/envs/dev/
+      continue-on-error: true
 
-    # - name: Post Format
-    #   if: always() && (steps.fmt.outcome == 'success' || steps.fmt.outcome == 'failure')
-    #   uses: robburger/terraform-pr-commenter@v1
-    #   with:
-    #     commenter_type: fmt
-    #     commenter_input: ${{ format('{0}{1}', steps.fmt.outputs.stdout, steps.fmt.outputs.stderr) }}
-    #     commenter_exitcode: 1
 
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
+          ${{ steps.terraform-docs.outputs.num_changed > 0 && '✅' || '➖' }} terraform fmt (number of updated = ${{ steps.terraform-docs.outputs.num_changed }})
           <details>
-          <summary>terraform fmt: ${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }}</summary>
+          <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
 
           ```patch
           ${{ steps.fmt.outputs.stdout }}
+          ```
+
+          </details>
+          <details>
+          <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
+
+          ```patch
+          ${{ steps.init.outputs.stdout }}
           ```
 
           </details>
