@@ -39,12 +39,6 @@ jobs:
         git-push: true
         git-commit-message: update terraform docs
 
-    # - name: Add comment to PR
-    #   if: steps.terraform-docs.outputs.num_changed > 0
-    #   uses: thollander/actions-comment-pull-request@v2
-    #   with:
-    #     message: Terraform Docs is updated.(num_changed = ${{ steps.terraform-docs.outputs.num_changed }})
-
     - name: Terraform Format
       id: fmt
       uses: gh640/command-result-action@v1
@@ -53,7 +47,7 @@ jobs:
         cwd: terragrunt/modules/
       continue-on-error: true
 
-    - name: Terraform init
+      - name: Terraform init
       id: init
       uses: gh640/command-result-action@v1
       with:
@@ -61,6 +55,21 @@ jobs:
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
+      - name: Terraform validate
+      id: validate
+      uses: gh640/command-result-action@v1
+      with:
+        command: terragrunt validate
+        cwd: terragrunt/envs/dev/
+      continue-on-error: true
+
+      - name: Terraform plan
+      id: plan
+      uses: gh640/command-result-action@v1
+      with:
+        command: terragrunt plan
+        cwd: terragrunt/envs/dev/
+      continue-on-error: true
 
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
@@ -78,8 +87,24 @@ jobs:
           <details>
           <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
 
-          ```patch
+          ```
           ${{ steps.init.outputs.stdout }}
+          ```
+
+          </details>
+          <details>
+          <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
+
+          ```
+          ${{ steps.validate.outputs.stdout }}
+          ```
+
+          </details>
+          <details>
+          <summary>${{ steps.plan.outputs.exitCode == 0 && '✅' || '❌' }} terraform plan</summary>
+
+          ```
+          ${{ steps.plan.outputs.stdout }}
           ```
 
           </details>
