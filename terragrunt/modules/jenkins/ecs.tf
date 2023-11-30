@@ -5,7 +5,7 @@ resource "aws_ecs_cluster" "jenkins_ecs" {
 
 # Jenkins用のECSタスク定義
 resource "aws_ecs_task_definition" "jenkins_ecs" {
-  family                   = "jenkins"
+  family                 = "jenkins"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = aws_iam_role.jenkins_ecs_execution.arn
