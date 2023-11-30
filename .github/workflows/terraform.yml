@@ -28,6 +28,7 @@ jobs:
         git-commit-message: "update terraform docs"
 
     - name: Add comment to PR
+      if: ${{ steps.terraform-docs.outputs.num_changed > 1 }}
       uses: thollander/actions-comment-pull-request@v2
       with:
-        message: 'Terraform Docs is updated.(${{ steps.terraform-docs.outputs.num_changed }})'
+        message: 'Terraform Docs is updated.(num_changed = ${{ steps.terraform-docs.outputs.num_changed }})'

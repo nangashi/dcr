@@ -2,10 +2,15 @@
 variable "system" {}
 variable "env" {}
 
-# network configuration
-variable "vpc_cidr_block" {}
+# == network configuration ==
+
+variable "vpc_cidr_block" {
+  description = "vpcで利用するcidrブロック"
+  type        = string
+}
 
 variable "public_subnets" {
+  description = "公開サブネットのcidrブロック"
   type = map(
     object({
       cidr_block        = string
@@ -15,6 +20,7 @@ variable "public_subnets" {
 }
 
 variable "private_subnets" {
+  description = "非公開サブネットのcidrブロック"
   type = map(
     object({
       cidr_block        = string
