@@ -14,11 +14,11 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
-    defaults:
-      run:
-        working-directory: terragrunt/modules/
+    # defaults:
+      # run:
+        # working-directory: terragrunt/modules/
     steps:
-    - run: echo "::add-matcher::../../.github/matcher.json"
+    - run: echo "::add-matcher::.github/matcher.json"
     - name: Checkout target branch
       uses: actions/checkout@v3
       with:
