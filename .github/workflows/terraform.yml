@@ -114,6 +114,7 @@ jobs:
           ```
 
           </details>
+          <details>
           <summary>${{ steps.tflint.outputs.exitCode == 0 && '✅' || '❌' }} terraform tflint</summary>
 
           ```
