@@ -49,7 +49,7 @@ jobs:
       id: fmt
       uses: gh640/command-result-action@v1
       with:
-        command: terraform fmt -check -recursive -diff
+        command: terraform fmt -check -recursive -diff 2>&1
         cwd: terragrunt/modules/
       continue-on-error: true
 
@@ -57,7 +57,7 @@ jobs:
       id: validate
       uses: gh640/command-result-action@v1
       with:
-        command: terragrunt run-all validate
+        command: terragrunt run-all validate --terragrunt-no-color 2>&1
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
@@ -65,17 +65,17 @@ jobs:
       id: init
       uses: gh640/command-result-action@v1
       with:
-        command: terragrunt run-all init
+        command: terragrunt run-all init --terragrunt-no-color 2>&1
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
-    - name: Terraform plan
-      id: plan
-      uses: gh640/command-result-action@v1
-      with:
-        command: terragrunt run-all plan
-        cwd: terragrunt/envs/dev/
-      continue-on-error: true
+    # - name: Terraform plan
+    #   id: plan
+    #   uses: gh640/command-result-action@v1
+    #   with:
+    #     command: terragrunt run-all plan
+    #     cwd: terragrunt/envs/dev/
+    #   continue-on-error: true
 
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
@@ -85,8 +85,8 @@ jobs:
           <details>
           <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
 
-          ```patch
-          ${{ steps.fmt.outputs.stdout }}${{ steps.fmt.outputs.stderr }}
+          ```diff
+          ${{ steps.fmt.outputs.stdout }}
           ```
 
           </details>
@@ -94,7 +94,7 @@ jobs:
           <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
 
           ```
-          ${{ steps.init.outputs.stdout }}${{ steps.init.outputs.stderr }}
+          ${{ steps.init.outputs.stdout }}
           ```
 
           </details>
@@ -102,19 +102,24 @@ jobs:
           <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
 
           ```
-          ${{ steps.validate.outputs.stdout }}${{ steps.validate.outputs.stderr }}
-          ```
-
-          </details>
-          <details>
-          <summary>${{ steps.plan.outputs.exitCode == 0 && '✅' || '❌' }} terraform plan</summary>
-
-          ```
-          ${{ steps.plan.outputs.stdout }}${{ steps.plan.outputs.stderr }}
+          ${{ steps.validate.outputs.stdout }}
           ```
 
           </details>
 
+    - uses: terraform-linters/setup-tflint@v3
+      name: Setup TFLint
+      with:
+        tflint_version: latest
+
+    # - name: Init TFLint
+    #   run: tflint --init
+      # env:
+      #   # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+      #   GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Run TFLint
+      run: tflint -f compact
 
     # - name: Terraform Init
     #   id: init
