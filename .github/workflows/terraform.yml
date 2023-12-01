@@ -20,6 +20,7 @@ jobs:
     steps:
     - run: |
         pwd
+        find .
         echo "::add-matcher::.github/matcher.json"
 
     - name: Checkout target branch
