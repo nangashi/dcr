@@ -14,6 +14,8 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
+    permissions:
+      pull-requests: write
     # defaults:
       # run:
         # working-directory: terragrunt/modules/
@@ -80,9 +82,35 @@ jobs:
     #     cwd: terragrunt/envs/dev/
     #   continue-on-error: true
 
-    - name: Add comment to PR
-      uses: thollander/actions-comment-pull-request@v2
+    # - name: Add comment to PR
+    #   uses: thollander/actions-comment-pull-request@v2
+    #   with:
+    #     message: |
+    #       ${{ steps.terraform-docs.outputs.num_changed > 0 && '✅' || '➖' }} terraform fmt (number of updated = ${{ steps.terraform-docs.outputs.num_changed }})
+    #       <details>
+    #       <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
+    #       ```diff
+    #       ${{ steps.fmt.outputs.stderr }}${{ steps.fmt.outputs.stdout }}
+    #       ```
+    #       </details>
+    #       <details>
+    #       <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
+    #       ```
+    #       ${{ steps.init.outputs.stderr }}${{ steps.init.outputs.stdout }}
+    #       ```
+    #       </details>
+    #       <details>
+    #       <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
+    #       ```
+    #       ${{ steps.validate.outputs.stderr }}${{ steps.validate.outputs.stdout }}
+    #       ```
+    #       </details>
+
+    - name: PR comment
+      uses: marocchino/sticky-pull-request-comment@v2
       with:
+        hide_and_recreate: true
+        hide_classify: "OUTDATED"
         message: |
           ${{ steps.terraform-docs.outputs.num_changed > 0 && '✅' || '➖' }} terraform fmt (number of updated = ${{ steps.terraform-docs.outputs.num_changed }})
           <details>
@@ -103,6 +131,8 @@ jobs:
           ${{ steps.validate.outputs.stderr }}${{ steps.validate.outputs.stdout }}
           ```
           </details>
+
+
     - uses: terraform-linters/setup-tflint@v4
 
     # - name: Init TFLint
