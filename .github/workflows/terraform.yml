@@ -108,9 +108,6 @@ jobs:
           </details>
 
     - uses: terraform-linters/setup-tflint@v3
-      name: Setup TFLint
-      with:
-        tflint_version: latest
 
     # - name: Init TFLint
     #   run: tflint --init
@@ -119,7 +116,7 @@ jobs:
       #   GITHUB_TOKEN: ${{ github.token }}
 
     - name: Run TFLint
-      run: tflint -f compact
+      run: tflint -f compact  --recursive
 
     # - name: Terraform Init
     #   id: init
