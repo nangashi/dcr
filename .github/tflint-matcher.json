@@ -1,7 +1,7 @@
 {
   "problemMatcher": [
     {
-      "owner": "tflint-compact2",
+      "owner": "tflint-compact",
       "pattern": [
         {
           "regexp": "^(.+):(\\d+):(\\d+):\\s(Error|Warning|Notice)\\s-\\s(.+)\\s\\((.+)\\)$",

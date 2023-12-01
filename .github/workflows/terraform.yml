@@ -24,7 +24,7 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
 
-    # - run: echo "::add-matcher::.github/matcher.json"
+    - run: echo "::add-matcher::.github/tflint-matcher.json"
 
     - name: Set up AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
