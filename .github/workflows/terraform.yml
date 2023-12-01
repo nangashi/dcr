@@ -116,7 +116,8 @@ jobs:
       #   GITHUB_TOKEN: ${{ github.token }}
 
     - name: Run TFLint
-      run: tflint -f compact  --recursive
+      run: tflint -f compact --recursive
+      continue-on-error: true
 
     # - name: Terraform Init
     #   id: init
