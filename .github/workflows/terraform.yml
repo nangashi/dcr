@@ -57,7 +57,7 @@ jobs:
       id: validate
       uses: gh640/command-result-action@v1
       with:
-        command: terragrunt run-all validate --terragrunt-no-color
+        command: terragrunt run-all validate --terragrunt-no-color -no-color
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
@@ -65,7 +65,7 @@ jobs:
       id: init
       uses: gh640/command-result-action@v1
       with:
-        command: terragrunt run-all init --terragrunt-no-color
+        command: terragrunt run-all init --terragrunt-no-color -no-color
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
@@ -86,7 +86,7 @@ jobs:
           <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
 
           ```diff
-          ${{ steps.fmt.outputs.stdout }}${{ steps.fmt.outputs.stderr }}
+          ${{ steps.fmt.outputs.stderr }}${{ steps.fmt.outputs.stdout }}
           ```
 
           </details>
@@ -94,7 +94,7 @@ jobs:
           <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
 
           ```
-          ${{ steps.init.outputs.stdout }}${{ steps.init.outputs.stderr }}
+          ${{ steps.init.outputs.stderr }}${{ steps.init.outputs.stdout }}
           ```
 
           </details>
@@ -102,7 +102,7 @@ jobs:
           <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
 
           ```
-          ${{ steps.validate.outputs.stdout }}${{ steps.validate.outputs.stderr }}
+          ${{ steps.validate.outputs.stderr }}${{ steps.validate.outputs.stdout }}
           ```
 
           </details>
