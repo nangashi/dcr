@@ -27,7 +27,6 @@ jobs:
       uses: autero1/action-terragrunt@v1.1.0
       with:
         terragrunt_version: latest
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Render terraform docs and push changes back to PR
       id: terraform-docs
@@ -80,7 +79,7 @@ jobs:
           <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
 
           ```patch
-          ${{ steps.fmt.outputs.stdout }}
+          ${{ steps.fmt.outputs.stdout }}${{ steps.fmt.outputs.stderr }}
           ```
 
           </details>
@@ -88,7 +87,7 @@ jobs:
           <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
 
           ```
-          ${{ steps.init.outputs.stdout }}
+          ${{ steps.init.outputs.stdout }}${{ steps.init.outputs.stderr }}
           ```
 
           </details>
@@ -96,7 +95,7 @@ jobs:
           <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
 
           ```
-          ${{ steps.validate.outputs.stdout }}
+          ${{ steps.validate.outputs.stdout }}${{ steps.validate.outputs.stderr }}
           ```
 
           </details>
@@ -104,7 +103,7 @@ jobs:
           <summary>${{ steps.plan.outputs.exitCode == 0 && '✅' || '❌' }} terraform plan</summary>
 
           ```
-          ${{ steps.plan.outputs.stdout }}
+          ${{ steps.plan.outputs.stdout }}${{ steps.plan.outputs.stderr }}
           ```
 
           </details>
