@@ -121,7 +121,7 @@ jobs:
 
     - name: Run TFLint
       id: tflint
-      run: tflint --recursive -f compact
+      run: tflint --recursive
       continue-on-error: true
 
 
