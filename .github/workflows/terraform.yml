@@ -47,19 +47,19 @@ jobs:
         cwd: terragrunt/modules/
       continue-on-error: true
 
-    - name: Terraform init
-      id: init
-      uses: gh640/command-result-action@v1
-      with:
-        command: terragrunt init
-        cwd: terragrunt/envs/dev/
-      continue-on-error: true
-
     - name: Terraform validate
       id: validate
       uses: gh640/command-result-action@v1
       with:
-        command: terragrunt validate
+        command: terragrunt run-all validate
+        cwd: terragrunt/envs/dev/
+      continue-on-error: true
+
+    - name: Terraform init
+      id: init
+      uses: gh640/command-result-action@v1
+      with:
+        command: terragrunt run-all init
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
@@ -67,7 +67,7 @@ jobs:
       id: plan
       uses: gh640/command-result-action@v1
       with:
-        command: terragrunt plan
+        command: terragrunt run-all plan
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
