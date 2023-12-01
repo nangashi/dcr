@@ -94,7 +94,7 @@ jobs:
           <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
 
           ```
-          ${{ steps.init.outputs.stdout }}${{ steps.fmt.outputs.stderr }}
+          ${{ steps.init.outputs.stdout }}${{ steps.init.outputs.stderr }}
           ```
 
           </details>
@@ -102,7 +102,7 @@ jobs:
           <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
 
           ```
-          ${{ steps.validate.outputs.stdout }}${{ steps.fmt.outputs.stderr }}
+          ${{ steps.validate.outputs.stdout }}${{ steps.validate.outputs.stderr }}
           ```
 
           </details>
