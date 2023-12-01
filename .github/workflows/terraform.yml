@@ -120,8 +120,13 @@ jobs:
 
 
     - name: Run TFLint
+      id: tflint
       run: tflint --recursive -f compact
       continue-on-error: true
+
+    - run: echo ${{ steps.tflint.outputs.stdout }}
+    - run: echo ${{ steps.tflint.outputs.stderr }}
+    - run: echo ${{ steps.tflint.outputs.exitcode }}
 
     # - name: Terraform Init
     #   id: init
