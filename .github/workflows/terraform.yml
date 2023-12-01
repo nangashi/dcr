@@ -108,8 +108,6 @@ jobs:
           </details>
 
     - uses: terraform-linters/setup-tflint@v3
-      with:
-        tflint_wrapper: true
 
     # - name: Init TFLint
     #   run: tflint --init
@@ -117,8 +115,12 @@ jobs:
       #   # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
       #   GITHUB_TOKEN: ${{ github.token }}
 
+    - name: Show version
+      run: tflint --version
+
+
     - name: Run TFLint
-      run: tflint -f compact --recursive
+      run: tflint --recursive -f compact
       continue-on-error: true
 
     # - name: Terraform Init
