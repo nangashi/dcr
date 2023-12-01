@@ -120,5 +120,4 @@ jobs:
           ```
 
           </details>
-          <details>
           ${{ steps.tflint.outcome == 'success' && '✅' || '❌' }} terraform tflint ${{ steps.tflint.outcome }}
