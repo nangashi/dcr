@@ -26,7 +26,7 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
 
-    - run: echo "::add-matcher::.github/matcher.json"
+    # - run: echo "::add-matcher::.github/matcher.json"
 
     - name: Set up AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -75,12 +75,16 @@ jobs:
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
+    # - name: Run TFLint
+    #   id: tflint
+    #   uses: gh640/command-result-action@v1
+    #   with:
+    #     command: tflint --recursive --format compact
+    #     cwd: terragrunt/modules/
+    #   continue-on-error: true
     - name: Run TFLint
       id: tflint
-      uses: gh640/command-result-action@v1
-      with:
-        command: tflint --recursive --format compact
-        cwd: terragrunt/modules/
+      run: tflint --recursive --format compact
       continue-on-error: true
 
     - name: PR comment
@@ -117,10 +121,4 @@ jobs:
 
           </details>
           <details>
-          <summary>${{ steps.tflint.outputs.exitCode == 0 && '✅' || '❌' }} terraform tflint</summary>
-
-          ```
-          ${{ steps.tflint.outputs.stderr }}${{ steps.tflint.outputs.stdout }}
-          ```
-
-          </details>
+          ${{ steps.tflint.outcome == 'success' && '✅' || '❌' }} terraform tflint ${{ steps.tflint.outcome }}
