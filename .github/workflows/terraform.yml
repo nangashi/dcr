@@ -18,15 +18,13 @@ jobs:
       # run:
         # working-directory: terragrunt/modules/
     steps:
-    - run: |
-        pwd
-        find .
-        echo "::add-matcher::.github/matcher.json"
 
     - name: Checkout target branch
       uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
+
+    - run: echo "::add-matcher::.github/matcher.json"
 
     - name: Set up AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
