@@ -88,9 +88,10 @@ jobs:
 
     - name: Run TFLint
       id: tflint
-      run: tflint --recursive --format compact
+      run: echo "TFLINT_RESULT=$(tflint --recursive --format compact)" >> $GITHUB_ENV
       continue-on-error: true
     - run: echo '${{ toJson(steps.tflint) }}'
+    - run: IFS=$'\n' for line in "${{ env.TFLINT_RESULT }}"; do echo "$line"; done
 
     - name: PR comment
       uses: marocchino/sticky-pull-request-comment@v2
