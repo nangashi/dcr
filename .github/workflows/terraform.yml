@@ -98,6 +98,8 @@ jobs:
 
     - name: PR comment
       uses: marocchino/sticky-pull-request-comment@v2
+      env:
+        TFLINT_RESULT: ${{ env.TFLINT_RESULT }}
       with:
         header: terraform
         hide_and_recreate: true
@@ -130,7 +132,7 @@ jobs:
 
           </details>
           <details>
-          ${{ steps.tflint.outcome == 'success' && '✅' || '❌' }} terraform tflint ${{ steps.tflint.outcome }}
+          <summary>${{ steps.tflint.outcome == 'success' && '✅' || '❌' }} terraform tflint</summary>
 
           ```
           ${{ env.TFLINT_RESULT }}
