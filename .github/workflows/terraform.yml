@@ -89,7 +89,7 @@ jobs:
     - name: Run TFLint
       id: tflint
       run: |
-        echo "TFLINT_RESULT=<<END" >> $GITHUB_ENV
+        echo "TFLINT_RESULT<<END" >> $GITHUB_ENV
         echo "$(tflint --recursive --format compact 2>&1)"
         echo "END"
       continue-on-error: true
