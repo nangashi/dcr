@@ -93,8 +93,8 @@ jobs:
         tflint --recursive --format compact 2>&1
         echo "END"
       continue-on-error: true
-    - run: echo '${{ toJson(steps.tflint) }}'
-    - run: for line in "${{ env.TFLINT_RESULT }}"; do echo "$line"; done
+    # - run: echo '${{ toJson(steps.tflint) }}'
+    # - run: for line in "${{ env.TFLINT_RESULT }}"; do echo "$line"; done
 
     - name: PR comment
       uses: marocchino/sticky-pull-request-comment@v2
