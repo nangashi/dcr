@@ -75,18 +75,18 @@ jobs:
         cwd: terragrunt/envs/dev/
       continue-on-error: true
 
-    - name: Run TFLint
-      id: tflint
-      uses: gh640/command-result-action@v1
-      with:
-        command: tflint --recursive --format compact
-        cwd: terragrunt/modules/
-      continue-on-error: true
-    - run: echo '${{ steps.tflint.outputs.stdout }}'
     # - name: Run TFLint
     #   id: tflint
-    #   run: tflint --recursive --format compact
+    #   uses: gh640/command-result-action@v1
+    #   with:
+    #     command: tflint --recursive --format compact
+    #     cwd: terragrunt/modules/
     #   continue-on-error: true
+    # - run: echo '${{ steps.tflint.outputs.stdout }}'
+    - name: Run TFLint
+      id: tflint
+      run: TFLINT_RESULT=$(tflint --recursive --format compact)
+      continue-on-error: true
 
     - name: PR comment
       uses: marocchino/sticky-pull-request-comment@v2
