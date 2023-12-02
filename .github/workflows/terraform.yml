@@ -95,6 +95,9 @@ jobs:
       continue-on-error: true
     # - run: echo '${{ toJson(steps.tflint) }}'
     # - run: for line in "${{ env.TFLINT_RESULT }}"; do echo "$line"; done
+    - run: echo ${{ env.TFLINT_RESULT }}
+      env:
+        TFLINT_RESULT: ${{ env.TFLINT_RESULT }}
 
     - name: PR comment
       uses: marocchino/sticky-pull-request-comment@v2
