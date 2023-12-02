@@ -87,7 +87,7 @@ jobs:
 
     - name: Run TFLint
       id: tflint
-      run: TFLINT_RESULT=$(tflint --recursive --format compact) && echo ${TFLINT_RESULT}
+      run: TFLINT_RESULT=$(tflint --recursive --format compact | tee /dev/tty)
       continue-on-error: true
 
     - name: PR comment
