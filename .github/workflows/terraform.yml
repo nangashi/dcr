@@ -90,6 +90,7 @@ jobs:
       id: tflint
       run: tflint --recursive --format compact
       continue-on-error: true
+    - run: echo '${{ toJson(steps.tflint) }}'
 
     - name: PR comment
       uses: marocchino/sticky-pull-request-comment@v2
