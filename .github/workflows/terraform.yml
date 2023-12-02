@@ -90,7 +90,7 @@ jobs:
       id: tflint
       run: |
         echo "TFLINT_RESULT<<END" >> $GITHUB_ENV
-        echo "$(tflint --recursive --format compact 2>&1)"
+        tflint --recursive --format compact 2>&1
         echo "END"
       continue-on-error: true
     - run: echo '${{ toJson(steps.tflint) }}'
