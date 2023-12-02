@@ -90,8 +90,9 @@ jobs:
       id: tflint
       run: |
         echo "TFLINT_RESULT<<ENND" >> $GITHUB_ENV
-        tflint --recursive --format compact 2>&1 >> $GITHUB_ENV || true
+        tflint --recursive --format compact 2>&1 >> $GITHUB_ENV || result=$? || true
         echo "ENND" >> $GITHUB_ENV
+        echo "TFLINT_EXITCODE=$result" >> $GITHUB_ENV
       continue-on-error: true
     # - run: echo '${{ toJson(steps.tflint) }}'
     - run: for line in "${{ env.TFLINT_RESULT }}"; do echo "$line"; done
@@ -135,7 +136,7 @@ jobs:
 
           </details>
           <details>
-          <summary>${{ steps.tflint.outcome == 'success' && '✅' || '❌' }} terraform tflint</summary>
+          <summary>${{ env.TFLINT_EXITCODE == 0 && '✅' || '❌' }} terraform tflint</summary>
 
           ```
           ${{ env.TFLINT_RESULT }}
