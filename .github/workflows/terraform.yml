@@ -82,7 +82,8 @@ jobs:
         command: tflint --recursive --format compact
         cwd: terragrunt/modules/
       continue-on-error: true
-    - run: echo ${{ steps.tflint.outputs.stdout }}${{ steps.tflint.outputs.stderr }}
+    - run: |
+        echo '${{ steps.tflint.outputs.stdout }}${{ steps.tflint.outputs.stderr }}' >&2
 
     # - name: Run TFLint
     #   id: tflint
