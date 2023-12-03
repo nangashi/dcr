@@ -1,28 +1,54 @@
 # from base
-variable "system" {}
-variable "env" {}
+variable "system" {
+  description = "システム名"
+  type        = string
+}
+variable "env" {
+  description = "環境名"
+  type        = string
+}
 
 # from infrastructure
-variable "ssm_google_oauth_client_id" {}
-variable "ssm_google_oauth_client_secret" {}
+variable "ssm_google_oauth_client_id" {
+  type = string
+}
+variable "ssm_google_oauth_client_secret" {
+  type = string
+}
 
 # from network
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 variable "public_subnet_ids" {
   type = list(string)
 }
 variable "private_subnet_ids" {
   type = list(string)
 }
-variable "elb_arn" {}
-variable "elb_hostname" {}
+variable "elb_arn" {
+  type = string
+}
+variable "elb_hostname" {
+  type = string
+}
 
 # jenkins parameter
 variable "ecr_immutable" {
   type = bool
 }
-variable "git_repository" {}
-variable "git_branch" {}
-variable "current_tag" {}
-variable "jenkins_theme_color" {}
-variable "jenkins_url_prefix" {}
+variable "git_repository" {
+  type = string
+}
+variable "git_branch" {
+  type = string
+}
+variable "current_tag" {
+  type = string
+}
+variable "jenkins_theme_color" {
+  type = string
+}
+variable "jenkins_url_prefix" {
+  type = string
+}

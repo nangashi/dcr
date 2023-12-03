@@ -1,15 +1,15 @@
 resource "aws_efs_file_system" "jenkins_efs" {
-  creation_token = "jenkins-ecs-${var.env}"  # 作成トークンを任意の値に設定してください
-  performance_mode = "generalPurpose"  # パフォーマンスモードを設定 (generalPurpose | maxIO)
-  throughput_mode = "bursting"  # スループットモードを設定 (bursting | provisioned)
-  encrypted = true
+  creation_token   = "jenkins-ecs-${var.env}" # 作成トークンを任意の値に設定してください
+  performance_mode = "generalPurpose"         # パフォーマンスモードを設定 (generalPurpose | maxIO)
+  throughput_mode  = "bursting"               # スループットモードを設定 (bursting | provisioned)
+  encrypted        = true
 
   lifecycle_policy {
     transition_to_ia = "AFTER_1_DAY"
   }
 
   tags = {
-    Name = "jenkins-efs-${var.system}-${var.env}"  # タグを任意の値に設定してください
+    Name = "jenkins-efs-${var.system}-${var.env}" # タグを任意の値に設定してください
   }
 }
 
@@ -20,14 +20,14 @@ resource "aws_efs_mount_target" "jenkins_efs" {
 }
 
 resource "aws_security_group" "jenkins_efs" {
-  name        = "jenkins-efs-${var.env}"
-  vpc_id      = var.vpc_id
+  name   = "jenkins-efs-${var.env}"
+  vpc_id = var.vpc_id
 
   ingress {
-      from_port       = 2049
-      to_port         = 2049
-      protocol        = "tcp"
-      security_groups = ["${aws_security_group.jenkins_ecs.id}"]
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    security_groups = ["${aws_security_group.jenkins_ecs.id}"]
   }
 }
 
@@ -47,9 +47,9 @@ data "aws_iam_policy_document" "jenkins_efs" {
 
     # resources = [aws_efs_file_system.jenkins_efs.arn]
     condition {
-      test = "Bool"
+      test     = "Bool"
       variable = "elasticfilesystem:AccessedViaMountTarget"
-      values = ["true"]
+      values   = ["true"]
     }
   }
 }
@@ -64,15 +64,15 @@ resource "aws_efs_access_point" "jenkins_efs" {
   root_directory {
     path = "/jenkins_home"
     creation_info {
-      owner_gid = 1000
-      owner_uid = 1000
+      owner_gid   = 1000
+      owner_uid   = 1000
       permissions = "755"
     }
   }
 }
 
 resource "aws_iam_policy" "jenkins_efs_mount" {
-  name        = "jenkins-task-policy-${var.env}"  # ポリシー名を指定してください
+  name = "jenkins-task-policy-${var.env}" # ポリシー名を指定してください
 
   policy = jsonencode({
     Version = "2012-10-17",
