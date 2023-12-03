@@ -146,4 +146,4 @@ jobs:
       # env:
       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        terragrunt run-all plan --terragrunt-tfpath .github/scripts/tfwrapper.sh
+        terragrunt run-all plan --terragrunt-tfpath ${GITHUB_WORKSPACE}/.github/scripts/tfwrapper.sh
