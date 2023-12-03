@@ -142,7 +142,7 @@ jobs:
           </details>
 
     - name: Terragrunt plan
-      working-directory: terragrunt/modules/
+      working-directory: terragrunt/envs/dev/
       # env:
       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
