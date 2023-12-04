@@ -1,0 +1,606 @@
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v5.25.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+data.aws_ssm_parameter.google_oauth_client_secret: Reading...
+data.aws_ssm_parameter.google_oauth_client_id: Reading...
+data.aws_ssm_parameter.google_oauth_client_secret: Read complete after 1s [id=/google_oauth/client_secret]
+data.aws_ssm_parameter.google_oauth_client_id: Read complete after 1s [id=/google_oauth/client_id]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.aws_iam_policy_document.jenkins_efs will be read during apply
+  # (config refers to values not yet known)
+ <= data "aws_iam_policy_document" "jenkins_efs" {
+      + id   = (known after apply)
+      + json = (known after apply)
+
+      + statement {
+          + actions   = [
+              + "*",
+            ]
+          + effect    = "Allow"
+          + resources = [
+              + (known after apply),
+            ]
+
+          + condition {
+              + test     = "Bool"
+              + values   = [
+                  + "true",
+                ]
+              + variable = "elasticfilesystem:AccessedViaMountTarget"
+            }
+
+          + principals {
+              + identifiers = [
+                  + "*",
+                ]
+              + type        = "AWS"
+            }
+        }
+    }
+
+  # aws_cloudwatch_log_group.jenkins_ecs_log will be created
+  + resource "aws_cloudwatch_log_group" "jenkins_ecs_log" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + name              = "/ecs/jenkins-ecs-dev"
+      + name_prefix       = (known after apply)
+      + retention_in_days = 14
+      + skip_destroy      = false
+      + tags_all          = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+    }
+
+  # aws_ecr_lifecycle_policy.jenkins_ecr_lifecycle_policy will be created
+  + resource "aws_ecr_lifecycle_policy" "jenkins_ecr_lifecycle_policy" {
+      + id          = (known after apply)
+      + policy      = jsonencode(
+            {
+              + rules = [
+                  + {
+                      + action       = {
+                          + type = "expire"
+                        }
+                      + description  = "Expire untagged images"
+                      + rulePriority = 1
+                      + selection    = {
+                          + countNumber = 1
+                          + countType   = "sinceImagePushed"
+                          + countUnit   = "days"
+                          + tagStatus   = "untagged"
+                        }
+                    },
+                ]
+            }
+        )
+      + registry_id = (known after apply)
+      + repository  = "jenkins"
+    }
+
+  # aws_ecr_repository.jenkins_ecr will be created
+  + resource "aws_ecr_repository" "jenkins_ecr" {
+      + arn                  = (known after apply)
+      + force_delete         = true
+      + id                   = (known after apply)
+      + image_tag_mutability = "MUTABLE"
+      + name                 = "jenkins"
+      + registry_id          = (known after apply)
+      + repository_url       = (known after apply)
+      + tags_all             = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+
+      + image_scanning_configuration {
+          + scan_on_push = true
+        }
+    }
+
+  # aws_ecs_cluster.jenkins_ecs will be created
+  + resource "aws_ecs_cluster" "jenkins_ecs" {
+      + arn      = (known after apply)
+      + id       = (known after apply)
+      + name     = "jenkins-cluster-dcr-dev"
+      + tags_all = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+    }
+
+  # aws_ecs_service.jenkins_ecs will be created
+  + resource "aws_ecs_service" "jenkins_ecs" {
+      + cluster                            = (known after apply)
+      + deployment_maximum_percent         = 200
+      + deployment_minimum_healthy_percent = 100
+      + desired_count                      = 1
+      + enable_ecs_managed_tags            = false
+      + enable_execute_command             = false
+      + iam_role                           = (known after apply)
+      + id                                 = (known after apply)
+      + launch_type                        = "FARGATE"
+      + name                               = "jenkins-service-dcr-dev"
+      + platform_version                   = (known after apply)
+      + scheduling_strategy                = "REPLICA"
+      + tags_all                           = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + task_definition                    = (known after apply)
+      + triggers                           = (known after apply)
+      + wait_for_steady_state              = false
+
+      + load_balancer {
+          + container_name   = "jenkins"
+          + container_port   = 8080
+          + target_group_arn = (known after apply)
+        }
+
+      + network_configuration {
+          + assign_public_ip = false
+          + security_groups  = (known after apply)
+          + subnets          = [
+              + "subnet-05880325586bdcc7f",
+            ]
+        }
+    }
+
+  # aws_ecs_task_definition.jenkins_ecs will be created
+  + resource "aws_ecs_task_definition" "jenkins_ecs" {
+      + arn                      = (known after apply)
+      + arn_without_revision     = (known after apply)
+      + container_definitions    = (sensitive value)
+      + cpu                      = "2048"
+      + execution_role_arn       = (known after apply)
+      + family                   = "jenkins"
+      + id                       = (known after apply)
+      + memory                   = "4096"
+      + network_mode             = "awsvpc"
+      + requires_compatibilities = [
+          + "FARGATE",
+        ]
+      + revision                 = (known after apply)
+      + skip_destroy             = false
+      + tags_all                 = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + task_role_arn            = (known after apply)
+
+      + volume {
+          + name = "jenkins-efs-dcr-dev"
+
+          + efs_volume_configuration {
+              + file_system_id          = (known after apply)
+              + root_directory          = "/"
+              + transit_encryption      = "ENABLED"
+              + transit_encryption_port = 2049
+
+              + authorization_config {
+                  + access_point_id = (known after apply)
+                  + iam             = "ENABLED"
+                }
+            }
+        }
+    }
+
+  # aws_efs_access_point.jenkins_efs will be created
+  + resource "aws_efs_access_point" "jenkins_efs" {
+      + arn             = (known after apply)
+      + file_system_arn = (known after apply)
+      + file_system_id  = (known after apply)
+      + id              = (known after apply)
+      + owner_id        = (known after apply)
+      + tags_all        = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+
+      + root_directory {
+          + path = "/jenkins_home"
+
+          + creation_info {
+              + owner_gid   = 1000
+              + owner_uid   = 1000
+              + permissions = "755"
+            }
+        }
+    }
+
+  # aws_efs_file_system.jenkins_efs will be created
+  + resource "aws_efs_file_system" "jenkins_efs" {
+      + arn                     = (known after apply)
+      + availability_zone_id    = (known after apply)
+      + availability_zone_name  = (known after apply)
+      + creation_token          = "jenkins-ecs-dev"
+      + dns_name                = (known after apply)
+      + encrypted               = true
+      + id                      = (known after apply)
+      + kms_key_id              = (known after apply)
+      + name                    = (known after apply)
+      + number_of_mount_targets = (known after apply)
+      + owner_id                = (known after apply)
+      + performance_mode        = "generalPurpose"
+      + size_in_bytes           = (known after apply)
+      + tags                    = {
+          + "Name" = "jenkins-efs-dcr-dev"
+        }
+      + tags_all                = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+          + "Name"        = "jenkins-efs-dcr-dev"
+        }
+      + throughput_mode         = "bursting"
+
+      + lifecycle_policy {
+          + transition_to_ia = "AFTER_1_DAY"
+        }
+    }
+
+  # aws_efs_file_system_policy.jenkins_efs will be created
+  + resource "aws_efs_file_system_policy" "jenkins_efs" {
+      + bypass_policy_lockout_safety_check = false
+      + file_system_id                     = (known after apply)
+      + id                                 = (known after apply)
+      + policy                             = (known after apply)
+    }
+
+  # aws_efs_mount_target.jenkins_efs will be created
+  + resource "aws_efs_mount_target" "jenkins_efs" {
+      + availability_zone_id   = (known after apply)
+      + availability_zone_name = (known after apply)
+      + dns_name               = (known after apply)
+      + file_system_arn        = (known after apply)
+      + file_system_id         = (known after apply)
+      + id                     = (known after apply)
+      + ip_address             = (known after apply)
+      + mount_target_dns_name  = (known after apply)
+      + network_interface_id   = (known after apply)
+      + owner_id               = (known after apply)
+      + security_groups        = (known after apply)
+      + subnet_id              = "subnet-05880325586bdcc7f"
+    }
+
+  # aws_iam_policy.jenkins_ecr_read_only_access will be created
+  + resource "aws_iam_policy" "jenkins_ecr_read_only_access" {
+      + arn         = (known after apply)
+      + description = "Policy to allow read-only access to a specific ECR repository"
+      + id          = (known after apply)
+      + name        = "ECRReadOnlyAccessForJenkins"
+      + name_prefix = (known after apply)
+      + path        = "/"
+      + policy      = (known after apply)
+      + policy_id   = (known after apply)
+      + tags_all    = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+    }
+
+  # aws_iam_policy.jenkins_ecs_log will be created
+  + resource "aws_iam_policy" "jenkins_ecs_log" {
+      + arn         = (known after apply)
+      + description = "IAM policy for ECS task to write logs to CloudWatch Logs"
+      + id          = (known after apply)
+      + name        = "jenkins-ecs-task-logs-policy-dev"
+      + name_prefix = (known after apply)
+      + path        = "/"
+      + policy      = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "logs:CreateLogGroup",
+                          + "logs:CreateLogStream",
+                          + "logs:PutLogEvents",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "arn:aws:logs:*:*:log-group:/ecs/jenkins-ecs-dev:*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id   = (known after apply)
+      + tags_all    = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+    }
+
+  # aws_iam_policy.jenkins_efs_mount will be created
+  + resource "aws_iam_policy" "jenkins_efs_mount" {
+      + arn         = (known after apply)
+      + id          = (known after apply)
+      + name        = "jenkins-task-policy-dev"
+      + name_prefix = (known after apply)
+      + path        = "/"
+      + policy      = (known after apply)
+      + policy_id   = (known after apply)
+      + tags_all    = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+    }
+
+  # aws_iam_role.jenkins_ecs_execution will be created
+  + resource "aws_iam_role" "jenkins_ecs_execution" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "ecs-tasks.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "jenkins-ecs-execution-dev"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + unique_id             = (known after apply)
+    }
+
+  # aws_iam_role.jenkins_task_execution will be created
+  + resource "aws_iam_role" "jenkins_task_execution" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "ecs-tasks.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "jenkins-task-execution-dev"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + unique_id             = (known after apply)
+    }
+
+  # aws_iam_role_policy_attachment.jenkins_ecr_read_only_access will be created
+  + resource "aws_iam_role_policy_attachment" "jenkins_ecr_read_only_access" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "jenkins-ecs-execution-dev"
+    }
+
+  # aws_iam_role_policy_attachment.jenkins_ecs_log will be created
+  + resource "aws_iam_role_policy_attachment" "jenkins_ecs_log" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "jenkins-ecs-execution-dev"
+    }
+
+  # aws_iam_role_policy_attachment.jenkins_efs_mount will be created
+  + resource "aws_iam_role_policy_attachment" "jenkins_efs_mount" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "jenkins-task-execution-dev"
+    }
+
+  # aws_lb_listener.jenkins_elb will be created
+  + resource "aws_lb_listener" "jenkins_elb" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + load_balancer_arn = "arn:aws:elasticloadbalancing:ap-northeast-1:384081048358:loadbalancer/app/elb-dcr-dev/899e219328051b98"
+      + port              = 80
+      + protocol          = "HTTP"
+      + ssl_policy        = (known after apply)
+      + tags_all          = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+
+      + default_action {
+          + order = (known after apply)
+          + type  = "fixed-response"
+
+          + fixed_response {
+              + content_type = "text/plain"
+              + status_code  = "403"
+            }
+        }
+    }
+
+  # aws_lb_listener_rule.jenkins_elb will be created
+  + resource "aws_lb_listener_rule" "jenkins_elb" {
+      + arn          = (known after apply)
+      + id           = (known after apply)
+      + listener_arn = (known after apply)
+      + priority     = 100
+      + tags_all     = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+
+      + action {
+          + order            = (known after apply)
+          + target_group_arn = (known after apply)
+          + type             = "forward"
+        }
+
+      + condition {
+          + path_pattern {
+              + values = [
+                  + "/jenkins*",
+                ]
+            }
+        }
+    }
+
+  # aws_lb_target_group.jenkins_elb will be created
+  + resource "aws_lb_target_group" "jenkins_elb" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + connection_termination             = (known after apply)
+      + deregistration_delay               = "300"
+      + id                                 = (known after apply)
+      + ip_address_type                    = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + load_balancing_cross_zone_enabled  = (known after apply)
+      + name                               = "jenkins-tg-dev"
+      + name_prefix                        = (known after apply)
+      + port                               = 8080
+      + preserve_client_ip                 = (known after apply)
+      + protocol                           = "HTTP"
+      + protocol_version                   = (known after apply)
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + tags_all                           = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + target_type                        = "ip"
+      + vpc_id                             = "vpc-08d226a0c467df223"
+
+      + health_check {
+          + enabled             = true
+          + healthy_threshold   = 2
+          + interval            = 30
+          + matcher             = "200-299,403"
+          + path                = "/jenkins/"
+          + port                = "traffic-port"
+          + protocol            = "HTTP"
+          + timeout             = 10
+          + unhealthy_threshold = 5
+        }
+    }
+
+  # aws_security_group.jenkins_ecs will be created
+  + resource "aws_security_group" "jenkins_ecs" {
+      + arn                    = (known after apply)
+      + description            = "Allow Jenkins"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 8080
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 8080
+            },
+        ]
+      + name                   = "jenkins-sg-dcr-dev"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags_all               = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + vpc_id                 = "vpc-08d226a0c467df223"
+    }
+
+  # aws_security_group.jenkins_efs will be created
+  + resource "aws_security_group" "jenkins_efs" {
+      + arn                    = (known after apply)
+      + description            = "Managed by Terraform"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = []
+              + description      = ""
+              + from_port        = 2049
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = (known after apply)
+              + self             = false
+              + to_port          = 2049
+            },
+        ]
+      + name                   = "jenkins-efs-dev"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags_all               = {
+          + "Environment" = "dev"
+          + "ManagedBy"   = "Terraform"
+        }
+      + vpc_id                 = "vpc-08d226a0c467df223"
+    }
+
+Plan: 23 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + jenkins_url = "http://elb-dcr-dev-887804881.ap-northeast-1.elb.amazonaws.com/jenkins/"
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+/home/r-toyama/dev/dcr/terragrunt/envs/dev/jenkins/log.tmp
+ok

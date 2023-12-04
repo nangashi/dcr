@@ -7,6 +7,23 @@ locals {
 
   git_repository = "https://github.com/nangashi/dcr.git"
   git_branch = "feature/jenkins"
+
+  slack_webhook_url = "https://hooks.slack.com/services/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"
+}
+
+terraform {
+  after_hook "after_hook" {
+    commands     = ["apply", "plan"]
+    execute      = [
+      // "env"
+      "${get_env("PWD")}/../../../scripts/notification.sh",
+      local.slack_webhook_url,
+      "${get_env("PWD")}/log.tmp",
+      local.env,
+      path_relative_to_include(),
+      "success"
+    ]
+  }
 }
 
 remote_state {
@@ -28,15 +45,19 @@ generate "provider" {
   path      = "_provider.tf"
   if_exists = "overwrite"
   contents  = <<EOF
-    provider "aws" {
-      region = "ap-northeast-1"
-      default_tags {
-        tags = {
-          ManagedBy = "Terraform"
-          Environment = "${local.env}"
-        }
-      }
+terraform {
+  required_version = "= 1.6.5"
+}
+
+provider "aws" {
+  region = "ap-northeast-1"
+  default_tags {
+    tags = {
+      ManagedBy = "Terraform"
+      Environment = "${local.env}"
     }
+  }
+}
   EOF
 }
 

@@ -12,6 +12,7 @@ if [ "$type" == "plan" ]; then
     # planのときは-patchオプションを付ける
     # 実行ディレクトリ名をターゲットとして指定
     tfcmt -var "target:${current_dir}" plan --patch --skip-no-changes -- terraform "$@"
+    echo tfcmt -var "target:${current_dir}" plan --patch --skip-no-changes -- terraform "$@"
 elif [ "$type" == "apply" ]; then
     tfcmt -var "target:${current_dir}" apply --skip-no-changes -- terraform "$@"
 else

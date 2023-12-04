@@ -1,9 +1,21 @@
-include {
+include "root" {
   path = find_in_parent_folders()
+  expose = true
 }
 
 terraform {
   source = "../../..//modules/${path_relative_to_include()}"
+
+  // after_hook "after_hook" {
+  //   commands     = ["apply"]
+  //   execute      = [
+  //     "${get_env("PWD")}/../../../scripts/notification.sh",
+  //     "${include.root.locals.slack_webhook_url}",
+  //     "${include.root.locals.env}",
+  //     "${path_relative_to_include()}",
+  //     "success"
+  //   ]
+  // }
 }
 
 inputs = {
