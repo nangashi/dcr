@@ -15,13 +15,13 @@ terraform {
   after_hook "after_hook" {
     commands     = ["apply", "plan"]
     execute      = [
-      // "env"
-      "${get_env("PWD")}/../../../scripts/notification.sh",
-      local.slack_webhook_url,
-      "${get_env("PWD")}/log.tmp",
-      local.env,
-      path_relative_to_include(),
-      "success"
+      "env"
+      // "${get_env("PWD")}/../../../scripts/notification.sh",
+      // local.slack_webhook_url,
+      // "${get_env("PWD")}/log.tmp",
+      // local.env,
+      // path_relative_to_include(),
+      // "success"
     ]
   }
 }
