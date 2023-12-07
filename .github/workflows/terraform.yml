@@ -22,8 +22,9 @@ jobs:
         # working-directory: terragrunt/modules/
     steps:
 
-    - run: echo ${{ env.ENV }}
-    # Setup
+    - run: echo ${{ secrets.GITHUB_TOKEN }}
+    - run: env
+      # Setup
     - uses: hashicorp/setup-terraform@v3
     - uses: autero1/action-terragrunt@v1.3.2
       with:
