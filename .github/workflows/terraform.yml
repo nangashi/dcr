@@ -11,7 +11,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: development
+    environment: |-
+      ${{
+        github.ref_name == 'main' && 'production'
+        || github.ref_name == 'staging' && 'staging'
+        || 'development'
+       }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
@@ -22,7 +27,7 @@ jobs:
         # working-directory: terragrunt/modules/
     steps:
 
-    - run: echo ${{ github.ref }}
+    - run: echo ${{ toJson(github) }}
     - run: env
       # Setup
     - uses: hashicorp/setup-terraform@v3
