@@ -97,7 +97,7 @@ jobs:
       #     echo "${{ steps.tflint.outputs.stderr }}" >&2
 
       - name: Init TFLint
-        run: tfinit --init --config=$(pwd)/.tflint.hcl
+        run: tflint --init --config=$(pwd)/.tflint.hcl
         working-directory: terragrunt/
       - name: Run TFLint
         id: tflint
