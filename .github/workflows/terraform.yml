@@ -20,12 +20,6 @@ jobs:
     env:
       # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
-    # permissions:
-    #   actions: write
-    #   pull-requests: write
-    # defaults:
-      # run
-        # working-directory: terragrunt/modules/
     steps:
       # - run: echo '${{ toJson(github) }}'
 
@@ -84,17 +78,6 @@ jobs:
           command: terragrunt run-all init --terragrunt-no-color -no-color
           cwd: terragrunt/envs/dev/
         continue-on-error: true
-
-      # - name: Run TFLint
-      #   id: tflint
-      #   uses: gh640/command-result-action@v1
-      #   with:
-      #     command: tflint --recursive --format compact
-      #     cwd: terragrunt/modules/
-      #   continue-on-error: tru
-      # - run: |
-      #     echo "${{ steps.tflint.outputs.stdout }}"
-      #     echo "${{ steps.tflint.outputs.stderr }}" >&2
 
       - name: Init TFLint
         run: tflint --init --config=$(pwd)/.tflint.hcl
