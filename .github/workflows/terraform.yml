@@ -27,14 +27,8 @@ jobs:
       # run
         # working-directory: terragrunt/modules/
     steps:
-      - run: echo "${{ github.base_ref }}"
-      - run: |-
-          echo '${{
-            github.base_ref == 'main' && 'production'
-            || github.base_ref == 'staging' && 'staging'
-            || 'development'
-          }}'
-      - run: echo '${{ toJson(github) }}'
+      # - run: echo '${{ toJson(github) }}'
+
         # Setup
       - uses: hashicorp/setup-terraform@v3
       - uses: autero1/action-terragrunt@v1.3.2
@@ -110,7 +104,7 @@ jobs:
           echo "ENND" >> $GITHUB_ENV
           echo "TFLINT_FAILED=$TFLINT_FAILED" >> $GITHUB_ENV
         continue-on-error: true
-      - run: for line in "${{ env.TFLINT_RESULT }}"; do echo "$line"; done
+      - run: for line in "$TFLINT_RESULT"; do echo "$line"; done
 
       - name: PR comment
         uses: marocchino/sticky-pull-request-comment@v2
