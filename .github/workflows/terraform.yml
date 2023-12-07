@@ -27,8 +27,13 @@ jobs:
         # working-directory: terragrunt/modules/
     steps:
 
+    - run: |-
+        echo '${{
+          github.ref_name == 'main' && 'production'
+          || github.ref_name == 'staging' && 'staging'
+          || 'development'
+        }}'
     - run: echo '${{ toJson(github) }}'
-    - run: env
       # Setup
     - uses: hashicorp/setup-terraform@v3
     - uses: autero1/action-terragrunt@v1.3.2
