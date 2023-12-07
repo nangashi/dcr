@@ -103,13 +103,12 @@ jobs:
         id: tflint
         run: |
           echo "TFLINT_RESULT<<ENND" >> $GITHUB_ENV
-          tflint --config=$(pwd)/.tflint.hcl --recursive --format compact 2>&1 \
-            | sed 's#^Warning: #Warning: terragrunt/#g' >> $GITHUB_ENV || TFLINT_FAILED=1
+          tflint --config=$(pwd)/.tflint.hcl --recursive --format compact 2>&1 >> $GITHUB_ENV || TFLINT_FAILED=1
           echo "ENND" >> $GITHUB_ENV
           echo "TFLINT_FAILED=$TFLINT_FAILED" >> $GITHUB_ENV
         working-directory: terragrunt/
         continue-on-error: true
-      - run: for line in "$TFLINT_RESULT"; do echo "$line"; done
+      - run: for line in "$TFLINT_RESULT"; do echo "$line" | sed "s#^Warning: #Warning: terragrunt/#g"; done
 
       - name: PR comment
         uses: marocchino/sticky-pull-request-comment@v2
