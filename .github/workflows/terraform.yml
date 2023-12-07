@@ -11,12 +11,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: |-
-      ${{
-        github.base_ref == 'main' && 'production'
-        || github.base_ref == 'staging' && 'staging'
-        || 'development'
-      }}
+    # environment: |-
+    #   ${{
+    #     github.base_ref == 'main' && 'production'
+    #     || github.base_ref == 'staging' && 'staging'
+    #     || 'development'
+    #   }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
@@ -46,7 +46,7 @@ jobs:
       - name: Checkout target branch
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       # AWS Credential
       - name: Set up AWS credentials
@@ -58,8 +58,6 @@ jobs:
 
       - name: Render terraform docs and push changes back to PR
         id: terraform-docs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: terraform-docs/gh-actions@main
         with:
           find-dir: terragrunt/modules/
