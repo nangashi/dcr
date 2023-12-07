@@ -58,6 +58,8 @@ jobs:
 
       - name: Render terraform docs and push changes back to PR
         id: terraform-docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: terraform-docs/gh-actions@main
         with:
           find-dir: terragrunt/modules/
