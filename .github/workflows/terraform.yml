@@ -20,9 +20,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
-    permissions:
-      actions: write
-      pull-requests: write
+    # permissions:
+    #   actions: write
+    #   pull-requests: write
     # defaults:
       # run
         # working-directory: terragrunt/modules/
