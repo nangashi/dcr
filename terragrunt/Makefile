@@ -1,5 +1,5 @@
 # デフォルトの環境
-TF_ENV ?= dev
+ENV ?= dev
 MAKEFILE_PATH := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 TF_WRAPPER := $(MAKEFILE_PATH)/scripts/tfwrapper.sh
 TFNOTIFY_CONFIG := $(MAKEFILE_PATH)/scripts/tfnotify_slack.yaml
@@ -22,8 +22,8 @@ apply:
 
 # 実行コマンド
 run:
-	$(eval MODULE_PATH := $(if $(MODULE),envs/$(TF_ENV)/$(MODULE),envs/$(TF_ENV)))
-	@$(MAKE) $(CMD)-$(TF_ENV) DIR=$(MODULE_PATH)
+	$(eval MODULE_PATH := $(if $(MODULE),envs/$(ENV)/$(MODULE),envs/$(ENV)))
+	@$(MAKE) $(CMD)-$(ENV) DIR=$(MODULE_PATH)
 
 # dev環境用のplan
 plan-dev:
@@ -33,8 +33,8 @@ plan-dev:
 # dev環境用のapply
 apply-dev:
 	@cd $(DIR); \
-	export SLACK_TOKEN=$(shell aws ssm get-parameter --name "/$(TF_ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
-	export SLACK_CHANNEL_ID=$(shell aws ssm get-parameter --name "/$(TF_ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_TOKEN=$(shell aws ssm get-parameter --name "/$(ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_CHANNEL_ID=$(shell aws ssm get-parameter --name "/$(ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
 	TFNOTIFY_CONFIG=$(TFNOTIFY_CONFIG) terragrunt $(if $(MODULE),,run-all) apply --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive
 
 # stg/prd環境用のplan
@@ -45,6 +45,6 @@ plan-stg plan-prd:
 # stg/prd環境用のapply
 apply-stg apply-prd:
 	@cd $(DIR); \
-	export SLACK_TOKEN=$(shell aws ssm get-parameter --name "/$(TF_ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
-	export SLACK_CHANNEL_ID=$(shell aws ssm get-parameter --name "/$(TF_ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_TOKEN=$(shell aws ssm get-parameter --name "/$(ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_CHANNEL_ID=$(shell aws ssm get-parameter --name "/$(ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
 	TFNOTIFY_CONFIG=$(TFNOTIFY_CONFIG) terragrunt $(if $(MODULE),,run-all) apply --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive

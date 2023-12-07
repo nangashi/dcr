@@ -158,7 +158,7 @@ jobs:
 
       - name: Terragrunt plan
         working-directory: terragrunt/
-        # env:
+        env:
+          ENV: ${{ vars.ENV }}
         #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          terragrunt run-all plan --terragrunt-tfpath ${GITHUB_WORKSPACE}/.github/scripts/tfwrapper.sh
+        run: make plan
