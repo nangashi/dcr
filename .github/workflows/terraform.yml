@@ -108,7 +108,8 @@ jobs:
           echo "TFLINT_FAILED=$TFLINT_FAILED" >> $GITHUB_ENV
         working-directory: terragrunt/
         continue-on-error: true
-      - run: for line in "$TFLINT_RESULT"; do echo "$line" | sed "s#^Warning: #Warning: terragrunt/#g"; done
+      - run: |
+          for line in "$TFLINT_RESULT"; do echo "$line" | sed "s#^Warning: #Warning: terragrunt/#g"; done
 
       - name: PR comment
         uses: marocchino/sticky-pull-request-comment@v2
