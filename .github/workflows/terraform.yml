@@ -4,13 +4,14 @@ on:
   pull_request:
     branches:
       - main
+      - staging
     # paths:
     #   - terragrunt/modules/**
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: development
+    # environment: development
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
@@ -20,6 +21,8 @@ jobs:
       # run
         # working-directory: terragrunt/modules/
     steps:
+
+    - run: echo ${{ env.ENV }}
     # Setup
     - uses: hashicorp/setup-terraform@v3
     - uses: autero1/action-terragrunt@v1.3.2
@@ -142,7 +145,7 @@ jobs:
           </details>
 
     - name: Terragrunt plan
-      working-directory: terragrunt/envs/dev/
+      working-directory: terragrunt/
       # env:
       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |

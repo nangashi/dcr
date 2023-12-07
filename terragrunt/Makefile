@@ -39,8 +39,12 @@ apply-dev:
 
 # stg/prd環境用のplan
 plan-stg plan-prd:
-	@cd $(DIR) && terragrunt plan | tfcmt
+	@cd $(DIR); \
+	terragrunt $(if $(MODULE),,run-all) apply --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive
 
 # stg/prd環境用のapply
 apply-stg apply-prd:
-	@cd $(DIR) && terragrunt apply && tfnotify apply
+	@cd $(DIR); \
+	export SLACK_TOKEN=$(shell aws ssm get-parameter --name "/$(TF_ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_CHANNEL_ID=$(shell aws ssm get-parameter --name "/$(TF_ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
+	TFNOTIFY_CONFIG=$(TFNOTIFY_CONFIG) terragrunt $(if $(MODULE),,run-all) apply --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive
