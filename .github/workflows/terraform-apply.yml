@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: |-
       ${{
-        github.ref == 'main' && 'production'
-        || github.ref == 'staging' && 'staging'
-        || 'development'
+        github.ref == 'refs/heads/main' && 'production'
+        || github.ref == 'refs/heads/staging' && 'staging'
+        || 'error'
       }}
     env:
       TF_IN_AUTOMATION: true
@@ -27,6 +27,7 @@ jobs:
       - uses: autero1/action-terragrunt@v1.3.2
         with:
           terragrunt_version: latest
+      - uses: kerraform/setup-tfnotify@v1
 
       # Checkout
       - name: Checkout target branch
