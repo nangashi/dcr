@@ -1,5 +1,6 @@
-AWS_ACCOUNT_ID?=384081048358
-REPOSITORY=$(AWS_ACCOUNT_ID).dkr.ecr.ap-northeast-1.amazonaws.com
+TF_ENV ?= dev
+AWS_ACCOUNT_ID ?= 384081048358
+REPOSITORY := $(AWS_ACCOUNT_ID).dkr.ecr.ap-northeast-1.amazonaws.com
 
 # Docker image name
 IMAGE=$(REPOSITORY)/jenkins
@@ -24,8 +25,8 @@ run:
 		-e JENKINS_URL=http://localhost:8080/ \
 		-e GIT_REPOSITORY=https://github.com/nangashi/dcr.git \
 		-e GIT_BRANCH=feature/jenkins \
-		-e GOOGLE_OAUTH2_CLIENT_ID=$(shell aws ssm get-parameter --name "/google_oauth/client_id" --with-decryption --query "Parameter.Value" --output text) \
-		-e GOOGLE_OAUTH2_CLIENT_SECRET=$(shell aws ssm get-parameter --name "/google_oauth/client_secret" --with-decryption --query "Parameter.Value" --output text) \
+		-e GOOGLE_OAUTH2_CLIENT_ID=$(shell aws ssm get-parameter --name "/$(TF_ENV)/google_oauth/client_id" --with-decryption --query "Parameter.Value" --output text) \
+		-e GOOGLE_OAUTH2_CLIENT_SECRET=$(shell aws ssm get-parameter --name "/$(TF_ENV)/google_oauth/client_secret" --with-decryption --query "Parameter.Value" --output text) \
 		-v $(PWD)/script/create_job.groovy:/usr/share/jenkins/ref/init.groovy.d/create_job.groovy \
 		-v $(PWD)/jobs/develop:/usr/share/jenkins/ref/init.groovy.d/develop-jobs \
 		-v $(PWD)/jobs/operation:/usr/share/jenkins/ref/init.groovy.d/operation-jobs \

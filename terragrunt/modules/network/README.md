@@ -36,10 +36,10 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_env"></a> [env](#input\_env) | n/a | `any` | n/a | yes |
+| <a name="input_env"></a> [env](#input\_env) | n/a | `string` | n/a | yes |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | 非公開サブネットのcidrブロック | <pre>map(<br>    object({<br>      cidr_block        = string<br>      availability_zone = string<br>      }<br>  ))</pre> | n/a | yes |
 | <a name="input_public_subnets"></a> [public\_subnets](#input\_public\_subnets) | 公開サブネットのcidrブロック | <pre>map(<br>    object({<br>      cidr_block        = string<br>      availability_zone = string<br>      }<br>  ))</pre> | n/a | yes |
-| <a name="input_system"></a> [system](#input\_system) | from base | `any` | n/a | yes |
+| <a name="input_system"></a> [system](#input\_system) | from base | `string` | n/a | yes |
 | <a name="input_vpc_cidr_block"></a> [vpc\_cidr\_block](#input\_vpc\_cidr\_block) | vpcで利用するcidrブロック | `string` | n/a | yes |
 
 ## Outputs

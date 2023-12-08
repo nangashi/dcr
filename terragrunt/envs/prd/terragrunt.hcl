@@ -1,12 +1,12 @@
 locals {
-  env = "dev"
+  env = "prd"
   # アカウント
   account = "384081048358"
   # システム名
   system = "dcr"
 
   git_repository = "https://github.com/nangashi/dcr.git"
-  git_branch = "feature/jenkins"
+  git_branch = "main"
 
   slack_webhook_url = "https://hooks.slack.com/services/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"
 }

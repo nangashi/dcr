@@ -1,0 +1,151 @@
+name: terraform docs
+
+on:
+  pull_request:
+    branches:
+      - main
+      - staging
+    # paths:
+    #   - terragrunt/modules/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: |-
+      ${{
+        github.base_ref == 'main' && 'production'
+        || github.base_ref == 'staging' && 'staging'
+        || 'development'
+      }}
+    env:
+      TF_IN_AUTOMATION: true
+    steps:
+      # - run: echo '${{ toJson(github) }}'
+
+      # Setup
+      - uses: hashicorp/setup-terraform@v3
+      - uses: autero1/action-terragrunt@v1.3.2
+        with:
+          terragrunt_version: latest
+      - uses: terraform-linters/setup-tflint@v4
+      - uses: shmokmt/actions-setup-tfcmt@v2
+
+      # Checkout
+      - name: Checkout target branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      # AWS Credential
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      - name: Render terraform docs and push changes back to PR
+        id: terraform-docs
+        uses: terraform-docs/gh-actions@main
+        with:
+          find-dir: terragrunt/modules/
+          output-file: README.md
+          output-method: inject
+          git-push: true
+          git-commit-message: update terraform docs
+
+      - name: Terraform Format
+        id: fmt
+        uses: gh640/command-result-action@v1
+        with:
+          command: terraform fmt -check -recursive -diff
+          cwd: terragrunt/modules/
+        continue-on-error: true
+
+      - name: Terraform validate
+        id: validate
+        uses: gh640/command-result-action@v1
+        with:
+          command: terragrunt run-all validate --terragrunt-no-color -no-color
+          cwd: terragrunt/envs/dev/
+        continue-on-error: true
+
+      - name: Terraform init
+        id: init
+        uses: gh640/command-result-action@v1
+        with:
+          command: terragrunt run-all init --terragrunt-no-color -no-color
+          cwd: terragrunt/envs/dev/
+        continue-on-error: true
+
+      - name: Init TFLint
+        run: tflint --init --config=$(pwd)/.tflint.hcl
+        working-directory: terragrunt/
+      - name: Run TFLint
+        id: tflint
+        run: |
+          echo "TFLINT_RESULT<<ENND" >> $GITHUB_ENV
+          tflint --config=$(pwd)/.tflint.hcl --recursive --format compact 2>&1 >> $GITHUB_ENV || TFLINT_FAILED=1
+          echo "ENND" >> $GITHUB_ENV
+          echo "TFLINT_FAILED=$TFLINT_FAILED" >> $GITHUB_ENV
+        working-directory: terragrunt/
+        continue-on-error: true
+      - run: |
+          for line in "$TFLINT_RESULT"; do echo "$line" | sed "s#^modules/#terragrunt/modules/#g"; done
+
+      - name: PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        env:
+          TFLINT_FAILED: ${{ env.TFLINT_FAILED }}
+          TFLINT_RESULT: ${{ env.TFLINT_RESULT }}
+        with:
+          header: terraform
+          hide_and_recreate: true
+          hide_classify: "OUTDATED"
+          message: |
+            ${{ steps.terraform-docs.outputs.num_changed > 0 && '✅' || '➖' }} terraform docs (number of updated = ${{ steps.terraform-docs.outputs.num_changed }})
+            <details>
+            <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
+
+            ```diff
+            ${{ steps.fmt.outputs.stderr }}${{ steps.fmt.outputs.stdout }}
+            ```
+
+            </details>
+            <details>
+            <summary>${{ steps.init.outputs.exitCode == 0 && '✅' || '❌' }} terraform init</summary>
+
+            ```
+            ${{ steps.init.outputs.stderr }}${{ steps.init.outputs.stdout }}
+            ```
+
+            </details>
+            <details>
+            <summary>${{ steps.validate.outputs.exitCode == 0 && '✅' || '❌' }} terraform validate</summary>
+
+            ```
+            ${{ steps.validate.outputs.stderr }}${{ steps.validate.outputs.stdout }}
+            ```
+
+            </details>
+            <details>
+            <summary>${{ env.TFLINT_FAILED != 1 && '✅' || '❌' }} terraform tflint</summary>
+
+            ```
+            ${{ env.TFLINT_RESULT }}
+            ```
+
+            </details>
+
+      - name: Check Result
+        run: exit 1
+        env:
+          TFLINT_FAILED: ${{ env.TFLINT_FAILED }}
+        if: ${{ steps.fmt.outputs.exitCode != 0 || steps.init.outputs.exitCode != 0 || steps.validate.outputs.exitCode != 0 || env.TFLINT_FAILED == 1 }}
+
+      - name: Terragrunt plan
+        working-directory: terragrunt/
+        env:
+          ENV: ${{ vars.ENV }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make plan
