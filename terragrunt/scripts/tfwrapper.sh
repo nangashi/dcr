@@ -28,7 +28,7 @@ elif [ "$type" == "apply" ]; then
   message="Terraform $TF_VAR_env - $current_module"
   echo "$tf_output" \
     | sed '/Terraform will perform the following actions/,$!d' \
-    | tfnotify --config "${TFNOTIFY_CONFIG}" "$type" --message "$message"
+    | tfnotify --config "${TFNOTIFY_CONFIG:-}" "$type" --message "$message"
 else
   terraform "$@"
 fi
