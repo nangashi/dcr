@@ -15,7 +15,7 @@ resource "aws_efs_file_system" "jenkins_efs" {
 
 resource "aws_efs_mount_target" "jenkins_efs" {
   file_system_id  = aws_efs_file_system.jenkins_efs.id
-  subnet_id       = var.private_subnet_ids[0]
+  subnet_id       = var.subnet_ids[0]
   security_groups = [aws_security_group.jenkins_efs.id]
 }
 
@@ -27,7 +27,7 @@ resource "aws_security_group" "jenkins_efs" {
     from_port       = 2049
     to_port         = 2049
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.jenkins_ecs.id}"]
+    security_groups = [aws_security_group.jenkins_ecs.id]
   }
 }
 

@@ -20,8 +20,7 @@ dependency "network" {
 inputs = {
   # from network
   vpc_id = dependency.network.outputs.vpc_id
-  public_subnet_ids = dependency.network.outputs.public_subnet_ids
-  private_subnet_ids = dependency.network.outputs.private_subnet_ids
+  subnet_ids = dependency.network.outputs.private_subnet_ids
   elb_hostname = dependency.network.outputs.elb_hostname
   elb_arn = dependency.network.outputs.elb_arn
   # from infrastructure

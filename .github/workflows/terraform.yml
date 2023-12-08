@@ -138,11 +138,11 @@ jobs:
 
             </details>
 
-      # - name: Check Result
-      #   run: exit 1
-      #   env:
-      #     TFLINT_FAILED: ${{ env.TFLINT_FAILED }}
-      #   if: ${{ steps.fmt.outputs.exitCode != 0 || steps.init.outputs.exitCode != 0 || steps.validate.outputs.exitCode != 0 || env.TFLINT_FAILED == 1 }}
+      - name: Check Result
+        run: exit 1
+        env:
+          TFLINT_FAILED: ${{ env.TFLINT_FAILED }}
+        if: ${{ steps.fmt.outputs.exitCode != 0 || steps.init.outputs.exitCode != 0 || steps.validate.outputs.exitCode != 0 || env.TFLINT_FAILED == 1 }}
 
       - name: Terragrunt plan
         working-directory: terragrunt/

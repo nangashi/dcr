@@ -12,8 +12,12 @@ help:
 	@echo "  make plan MODULE=<モジュール名> - Terraform Planを実行"
 	@echo "  make apply MODULE=<モジュール名> - Terraform Applyを実行"
 
+check:
+	@tflint --init --config=$(shell pwd)/.tflint.hcl
+	@tflint --recursive --config=$(shell pwd)/.tflint.hcl
+
 # plan ターゲット
-plan:
+plan: check
 	$(MAKE) run CMD=plan
 
 # apply ターゲット

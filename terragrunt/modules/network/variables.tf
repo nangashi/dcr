@@ -1,6 +1,10 @@
 # from base
-variable "system" {}
-variable "env" {}
+variable "system" {
+  type = string
+}
+variable "env" {
+  type = string
+}
 
 # == network configuration ==
 
