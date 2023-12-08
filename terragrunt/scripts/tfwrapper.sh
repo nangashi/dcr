@@ -9,7 +9,7 @@ if [ "$type" == "plan" ]; then
 elif [ "$type" == "apply" ]; then
   tf_output=$(terraform "$@" -no-color 2>&1)
 
-  # type=$(echo "$@" |  awk '{print $1}')
+  # type=$(echo "$@" |  awk '{print $1}'
   # if [ "$type" != "plan" ] && [ "$type" != "apply" ]; then
   #   echo "$tf_output"
   #   exit 0
