@@ -18,12 +18,11 @@ jobs:
         || 'development'
       }}
     env:
-      # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
     steps:
       # - run: echo '${{ toJson(github) }}'
 
-        # Setup
+      # Setup
       - uses: hashicorp/setup-terraform@v3
       - uses: autero1/action-terragrunt@v1.3.2
         with:
