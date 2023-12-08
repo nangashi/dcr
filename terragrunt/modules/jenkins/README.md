@@ -57,10 +57,9 @@ No modules.
 | <a name="input_git_repository"></a> [git\_repository](#input\_git\_repository) | n/a | `string` | n/a | yes |
 | <a name="input_jenkins_theme_color"></a> [jenkins\_theme\_color](#input\_jenkins\_theme\_color) | n/a | `string` | n/a | yes |
 | <a name="input_jenkins_url_prefix"></a> [jenkins\_url\_prefix](#input\_jenkins\_url\_prefix) | n/a | `string` | n/a | yes |
-| <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
-| <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
 | <a name="input_ssm_google_oauth_client_id"></a> [ssm\_google\_oauth\_client\_id](#input\_ssm\_google\_oauth\_client\_id) | from infrastructure | `string` | n/a | yes |
 | <a name="input_ssm_google_oauth_client_secret"></a> [ssm\_google\_oauth\_client\_secret](#input\_ssm\_google\_oauth\_client\_secret) | n/a | `string` | n/a | yes |
+| <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | n/a | `list(string)` | n/a | yes |
 | <a name="input_system"></a> [system](#input\_system) | システム名 | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | from network | `string` | n/a | yes |
 
