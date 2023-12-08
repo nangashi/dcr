@@ -40,7 +40,7 @@ apply-dev:
 # stg/prd環境用のplan
 plan-stg plan-prd:
 	@cd $(DIR); \
-	terragrunt $(if $(MODULE),,run-all) apply --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive
+	terragrunt $(if $(MODULE),,run-all) plan --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive
 
 # stg/prd環境用のapply
 apply-stg apply-prd:
