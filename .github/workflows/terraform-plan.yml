@@ -20,7 +20,7 @@ jobs:
     env:
       TF_IN_AUTOMATION: true
     steps:
-      # - run: echo '${{ toJson(github) }}'
+      - run: echo '${{ toJson(github) }}'
 
       # Setup
       - uses: hashicorp/setup-terraform@v3
