@@ -148,5 +148,5 @@ jobs:
         working-directory: terragrunt/
         env:
           ENV: ${{ vars.ENV }}
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make plan
