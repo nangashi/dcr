@@ -1,7 +1,7 @@
 locals {
   env = "dev"
   # アカウント
-  account = "384081048358"
+  account_id = "384081048358"
   # システム名
   system = "dcr"
 
@@ -14,7 +14,7 @@ locals {
 remote_state {
   backend = "s3"
   config = {
-    bucket         = "terraform-remote-state-${local.account}"
+    bucket         = "terraform-remote-state-${local.account_id}"
     key            = "${local.env}/${path_relative_to_include()}.tfstate"
     region         = "ap-northeast-1"
     encrypt        = true

@@ -5,9 +5,11 @@ set -eu
 current_module=$(basename $(pwd))
 type=$(echo "$@" |  awk '{print $1}')
 if [ "$type" == "plan" ]; then
+  echo "plan $current_module..."
   tfcmt -var "target:${current_module}" plan -patch --skip-no-changes -- terraform "$@"
 elif [ "$type" == "apply" ]; then
-  tf_output=$(terraform "$@" -no-color 2>&1)
+  echo "apply $current_module..."
+  tf_output=$(terraform "$@" -no-color 2>&1 | tee /dev/tty)
 
   # type=$(echo "$@" |  awk '{print $1}
   # if [ "$type" != "plan" ] && [ "$type" != "apply" ]; then

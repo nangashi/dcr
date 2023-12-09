@@ -1,9 +1,11 @@
 # from base
 variable "system" {
-  type = string
+  description = "システム名"
+  type        = string
 }
 variable "env" {
-  type = string
+  description = "環境名"
+  type        = string
 }
 
 # == network configuration ==
