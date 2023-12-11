@@ -14,7 +14,7 @@ variable "developer_users" {
   type        = list(string)
 }
 
-variable "deployer_account_id" {
-  description = "デプロイ用ユーザを作成するアカウントID"
+variable "user_account_id" {
+  description = "ユーザを作成するアカウントID"
   type        = string
 }
