@@ -5,9 +5,9 @@ MAKEFILE_PATH := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 TF_WRAPPER := $(MAKEFILE_PATH)/scripts/tfwrapper.sh
 TFNOTIFY_CONFIG := $(MAKEFILE_PATH)/scripts/tfnotify_slack.yaml
 # 開発環境ではaws-vaultで認証する
-# ifeq ($(ENV),dev)
+ifeq ($(ENV),dev)
 	AWS_VAULT := aws-vault exec admin --
-# endif
+endif
 
 
 .PHONY: help check plan apply plan-dev apply-dev plan-stg plan-prd apply-stg apply-prd
