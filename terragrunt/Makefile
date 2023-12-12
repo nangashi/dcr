@@ -3,7 +3,10 @@ ENV ?= dev
 MAKEFILE_PATH := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 TF_WRAPPER := $(MAKEFILE_PATH)/scripts/tfwrapper.sh
 TFNOTIFY_CONFIG := $(MAKEFILE_PATH)/scripts/tfnotify_slack.yaml
-AWS_VAULT := aws-vault exec admin --
+ifeq ($(ENV),dev)
+	AWS_VAULT := aws-vault exec admin --
+endif
+
 
 .PHONY: plan apply help plan-dev apply-dev plan-stg plan-prd apply-stg apply-prd
 
