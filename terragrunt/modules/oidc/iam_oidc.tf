@@ -38,7 +38,10 @@ data "aws_iam_policy_document" "github_actions" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_user}/${var.github_repository}:ref:refs/heads/${var.github_branch}"]
+      values = [
+        # "repo:${var.github_user}/${var.github_repository}:ref:refs/heads/${var.github_branch}"
+        "repo:nangashi/dcr:environment:production"
+      ]
     }
   }
 }
