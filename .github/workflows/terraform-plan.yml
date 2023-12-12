@@ -15,12 +15,12 @@ jobs:
       id-token: write
     environment: development
     env:
-      # ENV: |-
-      #   ${{
-      #     github.base_ref == 'main' && 'prd'
-      #     || github.base_ref == 'staging' && 'stg'
-      #     || 'error'
-      #   }}
+      ENV: |-
+        ${{
+          github.base_ref == 'main' && 'prd'
+          || github.base_ref == 'staging' && 'stg'
+          || 'error'
+        }}
       TF_IN_AUTOMATION: true
     steps:
       - run: echo '${{ toJson(github) }}'
@@ -150,6 +150,6 @@ jobs:
       - name: Terragrunt plan
         working-directory: terragrunt/
         env:
-          ENV: ${{ vars.ENV }}
+          # ENV: ${{ vars.ENV }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make plan
