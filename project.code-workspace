@@ -43,6 +43,7 @@
       // terraform
       "hashicorp.terraform",
       "hashicorp.hcl",
+      "fredwangwang.vscode-hcl-format",
     ]
   }
 }

@@ -26,8 +26,8 @@ resource "aws_ecs_task_definition" "jenkins_ecs" {
       { name = "JENKINS_OPTS", value = "--prefix=${var.jenkins_url_prefix}" },
       { name = "JENKINS_THEME_COLOR", value = var.jenkins_theme_color },
       { name = "JENKINS_URL", value = "http://${var.elb_hostname}${var.jenkins_url_prefix}" },
-      { name = "GIT_REPOSITORY", value = var.git_repository },
-      { name = "GIT_BRANCH", value = var.git_branch },
+      { name = "GIT_REPOSITORY", value = var.github_repository_url },
+      { name = "GIT_BRANCH", value = var.github_branch },
       { name = "GOOGLE_OAUTH2_CLIENT_ID", value = data.aws_ssm_parameter.google_oauth_client_id.value },
       { name = "GOOGLE_OAUTH2_CLIENT_SECRET", value = data.aws_ssm_parameter.google_oauth_client_secret.value },
     ]

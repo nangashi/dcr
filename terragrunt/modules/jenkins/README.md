@@ -53,8 +53,8 @@ No modules.
 | <a name="input_elb_arn"></a> [elb\_arn](#input\_elb\_arn) | n/a | `string` | n/a | yes |
 | <a name="input_elb_hostname"></a> [elb\_hostname](#input\_elb\_hostname) | n/a | `string` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | 環境名 | `string` | n/a | yes |
-| <a name="input_git_branch"></a> [git\_branch](#input\_git\_branch) | n/a | `string` | n/a | yes |
-| <a name="input_git_repository"></a> [git\_repository](#input\_git\_repository) | n/a | `string` | n/a | yes |
+| <a name="input_github_branch"></a> [github\_branch](#input\_github\_branch) | n/a | `string` | n/a | yes |
+| <a name="input_github_repository_url"></a> [github\_repository\_url](#input\_github\_repository\_url) | n/a | `string` | n/a | yes |
 | <a name="input_jenkins_theme_color"></a> [jenkins\_theme\_color](#input\_jenkins\_theme\_color) | n/a | `string` | n/a | yes |
 | <a name="input_jenkins_url_prefix"></a> [jenkins\_url\_prefix](#input\_jenkins\_url\_prefix) | n/a | `string` | n/a | yes |
 | <a name="input_ssm_google_oauth_client_id"></a> [ssm\_google\_oauth\_client\_id](#input\_ssm\_google\_oauth\_client\_id) | from infrastructure | `string` | n/a | yes |
