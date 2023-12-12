@@ -11,6 +11,7 @@ https://ap-northeast-1.console.aws.amazon.com/console/home?region=ap-northeast-1
 - tfnotify
 - aws-vault
 - xdg-utils
+- SlackApp for tfnotify (https://api.slack.com/apps)
 
 ## 構築
 
