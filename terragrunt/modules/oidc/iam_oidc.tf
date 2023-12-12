@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "administrator" {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:nangashi/dcr:environment:production"
+        "repo:${var.github_user}/${var.github_repository}:environment:production"
       ]
     }
   }
@@ -76,7 +76,7 @@ data "aws_iam_policy_document" "read_only" {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:nangashi/dcr:environment:development"
+        "repo:${var.github_user}/${var.github_repository}:environment:development"
       ]
     }
   }
