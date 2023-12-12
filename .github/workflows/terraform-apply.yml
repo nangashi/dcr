@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     environment: |-
       ${{
         github.ref == 'refs/heads/main' && 'production'
