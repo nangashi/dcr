@@ -37,11 +37,6 @@ data "aws_iam_policy_document" "github_actions" {
     # OIDCを利用できる対象のGitHub Repositoryを制限する
     condition {
       test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:aud"
-      values   = ["sts.amazonaws.com"]
-    }
-    condition {
-      test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values   = ["repo:${var.github_user}/${var.github_repository}:ref:refs/heads/${var.github_branch}"]
     }
