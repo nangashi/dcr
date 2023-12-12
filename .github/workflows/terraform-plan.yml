@@ -45,7 +45,7 @@ jobs:
         with:
           # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          role-to-assume: arn:aws:iam::384081048358:role/ReadOnlyOidc-${{ vars.ENV }}
+          role-to-assume: arn:aws:iam::384081048358:role/ReadOnlyOidc-${{ env.ENV }}
           aws-region: ap-northeast-1
 
       - name: Render terraform docs and push changes back to PR
