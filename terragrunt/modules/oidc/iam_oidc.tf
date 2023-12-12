@@ -15,7 +15,7 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
 
 # GitHub Actions側からはこのIAM Roleを指定する
 resource "aws_iam_role" "github_actions" {
-  name               = "github-actions"
+  name               = "AdministratorOidc-${var.env}"
   assume_role_policy = data.aws_iam_policy_document.github_actions.json
   description        = "IAM Role for GitHub Actions OIDC"
 }
@@ -34,12 +34,11 @@ data "aws_iam_policy_document" "github_actions" {
       ]
     }
 
-    # OIDCを利用できる対象のGitHub Repositoryを制限する
+    # OIDCを利用できるGitHub Repositoryを制限する
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        # "repo:${var.github_user}/${var.github_repository}:ref:refs/heads/${var.github_branch}"
         "repo:nangashi/dcr:environment:production"
       ]
     }
