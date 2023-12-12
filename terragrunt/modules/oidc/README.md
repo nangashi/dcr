@@ -32,7 +32,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_env"></a> [env](#input\_env) | 環境名 | `string` | n/a | yes |
-| <a name="input_github_branch"></a> [github\_branch](#input\_github\_branch) | デプロイ元となるGitHubブランチ名 | `string` | n/a | yes |
 | <a name="input_github_repository"></a> [github\_repository](#input\_github\_repository) | デプロイ元となるGitHubリポジトリ名 | `string` | n/a | yes |
 | <a name="input_github_user"></a> [github\_user](#input\_github\_user) | デプロイ元となるGitHubユーザ名 | `string` | n/a | yes |
 
