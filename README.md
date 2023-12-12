@@ -8,7 +8,9 @@ https://ap-northeast-1.console.aws.amazon.com/console/home?region=ap-northeast-1
 
 - tfenv
 - terragrunt
-- aws vault
+- tfnotify
+- aws-vault
+- xdg-utils
 
 ## 構築
 
