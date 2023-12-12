@@ -34,10 +34,10 @@ variable "elb_hostname" {
 variable "ecr_immutable" {
   type = bool
 }
-variable "git_repository" {
+variable "github_repository_url" {
   type = string
 }
-variable "git_branch" {
+variable "github_branch" {
   type = string
 }
 variable "current_tag" {

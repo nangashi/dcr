@@ -5,8 +5,10 @@ locals {
   # システム名
   system = "dcr"
 
-  git_repository = "https://github.com/nangashi/dcr.git"
-  git_branch = "feature/jenkins"
+  github_user           = "nanigashi"
+  github_repository     = "dcr"
+  github_repository_url = "https://github.com/${local.github_user}/${local.github_repository}.git"
+  github_branch         = "feature/jenkins"
 
   slack_webhook_url = "https://hooks.slack.com/services/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"
 }
@@ -14,10 +16,10 @@ locals {
 remote_state {
   backend = "s3"
   config = {
-    bucket         = "terraform-remote-state-${local.account_id}"
-    key            = "${local.env}/${path_relative_to_include()}.tfstate"
-    region         = "ap-northeast-1"
-    encrypt        = true
+    bucket  = "terraform-remote-state-${local.account_id}"
+    key     = "${local.env}/${path_relative_to_include()}.tfstate"
+    region  = "ap-northeast-1"
+    encrypt = true
   }
 
   generate = {
