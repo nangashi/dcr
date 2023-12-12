@@ -25,7 +25,7 @@ inputs = {
       availability_zone = "ap-northeast-1a"
     },
     subnet2 = {
-      cidr_block        = "10.1.5.0/24"
+      cidr_block        = "10.1.4.0/24"
       availability_zone = "ap-northeast-1c"
     }
   }
