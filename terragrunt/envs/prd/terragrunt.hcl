@@ -5,7 +5,7 @@ locals {
   # システム名
   system = "dcr"
 
-  github_user           = "nanigashi"
+  github_user           = "nangashi"
   github_repository     = "dcr"
   github_repository_url = "https://github.com/${local.github_user}/${local.github_repository}.git"
   github_branch         = "main"
