@@ -88,12 +88,12 @@ resource "aws_iam_role_policy_attachment" "developer_poweruser" {
 
 resource "aws_iam_group" "users" {
   count = (var.env == "dev") ? 1 : 0
-  name  = "User"
+  name  = "Users-${var.env}"
 }
 
 resource "aws_iam_group_membership" "users" {
   count = (var.env == "dev") ? 1 : 0
-  name  = "user-membership"
+  name  = "UsersMembership"
   users = concat(var.administrator_users, var.developer_users)
   group = aws_iam_group.users[0].name
   depends_on = [
@@ -132,7 +132,7 @@ resource "aws_iam_group_policy_attachment" "users_operator" {
 }
 
 resource "aws_iam_policy" "operator" {
-  name        = "Operator"
+  name        = "Operator-${var.env}"
   description = "Policy with additional permissions"
   policy      = data.aws_iam_policy_document.operator.json
 }
