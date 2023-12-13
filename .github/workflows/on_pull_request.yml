@@ -1,15 +1,14 @@
-name: terraform docs
+name: Check Pull Requests
 
 on:
   pull_request:
     branches:
       - main
       - staging
-    # paths:
-    #   - terragrunt/modules/**
 
 jobs:
-  build:
+  terraform:
+    name: Lint and Plan Terraform
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -25,8 +24,6 @@ jobs:
         }}
       TF_IN_AUTOMATION: true
     steps:
-      - run: echo '${{ toJson(github) }}'
-
       # Setup
       - uses: hashicorp/setup-terraform@v3
       - uses: autero1/action-terragrunt@v1.3.2
@@ -41,25 +38,14 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      # AWS Credential
+      # Configure AWS Credential
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           role-to-assume: arn:aws:iam::384081048358:role/ReadOnlyOidc-${{ env.ENV }}
           aws-region: ap-northeast-1
 
-      - name: Render terraform docs and push changes back to PR
-        id: terraform-docs
-        uses: terraform-docs/gh-actions@main
-        with:
-          find-dir: terragrunt/modules/
-          output-file: README.md
-          output-method: inject
-          git-push: true
-          git-commit-message: update terraform docs
-
+      # Execute Terraform fmt
       - name: Terraform Format
         id: fmt
         uses: gh640/command-result-action@v1
@@ -68,22 +54,16 @@ jobs:
           cwd: terragrunt/modules/
         continue-on-error: true
 
+      # Execute Terraform validate
       - name: Terraform validate
         id: validate
         uses: gh640/command-result-action@v1
         with:
           command: terragrunt run-all validate --terragrunt-no-color -no-color
-          cwd: terragrunt/envs/dev/
+          cwd: terragrunt/envs/${{ env.ENV }}/
         continue-on-error: true
 
-      - name: Terraform init
-        id: init
-        uses: gh640/command-result-action@v1
-        with:
-          command: terragrunt run-all init --terragrunt-no-color -no-color
-          cwd: terragrunt/envs/dev/
-        continue-on-error: true
-
+      # TFLint
       - name: Init TFLint
         run: tflint --init --config=$(pwd)/.tflint.hcl
         working-directory: terragrunt/
@@ -99,6 +79,16 @@ jobs:
       - run: |
           for line in "$TFLINT_RESULT"; do echo "$line" | sed "s#^modules/#terragrunt/modules/#g"; done
 
+      # Init Terraform
+      - name: Terraform init
+        id: init
+        uses: gh640/command-result-action@v1
+        with:
+          command: terragrunt run-all init --terragrunt-no-color -no-color
+          cwd: terragrunt/envs/${{ env.ENV }}/
+        continue-on-error: true
+
+      # Output Result to PR Comment
       - name: PR comment
         uses: marocchino/sticky-pull-request-comment@v2
         env:
@@ -148,6 +138,17 @@ jobs:
         env:
           TFLINT_FAILED: ${{ env.TFLINT_FAILED }}
         if: ${{ steps.fmt.outputs.exitCode != 0 || steps.init.outputs.exitCode != 0 || steps.validate.outputs.exitCode != 0 || env.TFLINT_FAILED == 1 }}
+
+      # Create Terraform Docs
+      - name: Render terraform docs and push changes back to PR
+        id: terraform-docs
+        uses: terraform-docs/gh-actions@main
+        with:
+          find-dir: terragrunt/modules/
+          output-file: README.md
+          output-method: inject
+          git-push: true
+          git-commit-message: Update Terraform Docs
 
       - name: Terragrunt plan
         working-directory: terragrunt/
