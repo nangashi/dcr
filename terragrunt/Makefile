@@ -43,8 +43,8 @@ plan-dev:
 # 開発環境用のapply
 apply-dev:
 	@cd $(DIR); \
-	export SLACK_TOKEN=$(shell aws ssm get-parameter --name "/$(ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
-	export SLACK_CHANNEL_ID=$(shell aws ssm get-parameter --name "/$(ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_TOKEN=$(shell $(AWS_VAULT) aws ssm get-parameter --name "/$(ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
+	export SLACK_CHANNEL_ID=$(shell $(AWS_VAULT) aws ssm get-parameter --name "/$(ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
 	export TFNOTIFY_CONFIG=$(TFNOTIFY_CONFIG); \
 	$(AWS_VAULT) terragrunt $(if $(MODULE),,run-all) apply --terragrunt-tfpath $(TF_WRAPPER) --terragrunt-non-interactive
 
