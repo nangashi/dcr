@@ -11,12 +11,6 @@ elif [ "$type" == "apply" ]; then
   echo "apply $current_module..."
   tf_output=$(terraform "$@" -no-color 2>&1 | tee /dev/stderr)
 
-  # type=$(echo "$@" |  awk '{print $1}
-  # if [ "$type" != "plan" ] && [ "$type" != "apply" ]; then
-  #   echo "$tf_output"
-  #   exit 0
-  # fi
-
   # 変更がないときは通知しない
   if echo "$tf_output" | grep -q "No changes. Your infrastructure matches the configuration."; then
       echo "No changes found. Exiting..."
