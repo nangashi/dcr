@@ -13,7 +13,7 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
   thumbprint_list = [data.tls_certificate.github_actions.certificates[0].sha1_fingerprint]
 }
 
-# GitHub Actions側からはこのIAM Roleを指定する
+# GitHub ActionsからはこのIAM Roleを指定する
 resource "aws_iam_role" "administrator" {
   name               = "AdministratorOidc-${var.env}"
   assume_role_policy = data.aws_iam_policy_document.administrator.json
