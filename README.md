@@ -49,8 +49,6 @@ role_arn=arn:aws:iam::<account_id>:role/<role_name>
 mfa_serial=arn:aws:iam::<account_id>:mfa/<mfa>
 ```
 
-```
-```
 
 動作確認
 ```
@@ -58,3 +56,12 @@ aws-vault exec admin
 aws s3 ls
 exit
 ```
+
+## 権限
+
+|環境|ログイン可否|管理者| | |開発者| | |
+|:----|:----|:----|:----|:----|:----|:----|:----|
+| | |mfa無し|mfa有り|ロール変更|mfa無し|mfa有り|ロール変更|
+|開発|可|MfaOnly|Operator|Administrator|MfaOnly|Operator|PowerUser|
+|ステージング|否|MfaOnly|-|Administrator|MfaOnly|-|Operator|
+|本番|否|MfaOnly|-|Administrator|MfaOnly|-|Operator|

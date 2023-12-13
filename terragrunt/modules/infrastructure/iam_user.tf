@@ -58,7 +58,27 @@ resource "aws_iam_role" "developer" {
   ]
 }
 
-resource "aws_iam_role_policy_attachment" "developer" {
+resource "aws_iam_role_policy_attachment" "developer_read_only" {
+  count      = (var.env != "dev") ? 1 : 0
+  role       = aws_iam_role.developer.name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  depends_on = [
+    aws_iam_role.developer
+  ]
+}
+
+resource "aws_iam_role_policy_attachment" "developer_operator" {
+  count      = (var.env != "dev") ? 1 : 0
+  role       = aws_iam_role.developer.name
+  policy_arn = aws_iam_policy.operator.arn
+  depends_on = [
+    aws_iam_role.developer,
+    aws_iam_policy.operator
+  ]
+}
+
+resource "aws_iam_role_policy_attachment" "developer_poweruser" {
+  count      = (var.env == "dev") ? 1 : 0
   role       = aws_iam_role.developer.name
   policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
   depends_on = [
@@ -92,13 +112,43 @@ resource "aws_iam_group_policy" "users_mfa_only" {
   ]
 }
 
-resource "aws_iam_group_policy_attachment" "read_only" {
+resource "aws_iam_group_policy_attachment" "users_read_only" {
   count      = (var.env == "dev") ? 1 : 0
   group      = aws_iam_group.users[0].name
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
   depends_on = [
     aws_iam_group.users
   ]
+}
+
+resource "aws_iam_group_policy_attachment" "users_operator" {
+  count      = (var.env == "dev") ? 1 : 0
+  group      = aws_iam_group.users[0].name
+  policy_arn = aws_iam_policy.operator.arn
+  depends_on = [
+    aws_iam_group.users,
+    aws_iam_policy.operator
+  ]
+}
+
+resource "aws_iam_policy" "operator" {
+  name        = "Operator"
+  description = "Policy with additional permissions"
+  policy      = data.aws_iam_policy_document.operator.json
+}
+
+data "aws_iam_policy_document" "operator" {
+  version = "2012-10-17"
+
+  statement {
+    actions = [
+      "lambda:InvokeFunction",
+      "datapipeline:ActivatePipeline",
+      "sqs:PurgeQueue",
+    ]
+    resources = ["*"]
+    effect    = "Allow"
+  }
 }
 
 data "aws_iam_policy_document" "mfa_only" {
