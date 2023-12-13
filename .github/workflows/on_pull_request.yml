@@ -60,7 +60,7 @@ jobs:
         uses: gh640/command-result-action@v1
         with:
           command: terragrunt run-all validate --terragrunt-no-color -no-color
-          cwd: terragrunt/envs/dev/
+          cwd: terragrunt/envs/${{ env.ENV }}/
         continue-on-error: true
 
       # TFLint
@@ -85,7 +85,7 @@ jobs:
         uses: gh640/command-result-action@v1
         with:
           command: terragrunt run-all init --terragrunt-no-color -no-color
-          cwd: terragrunt/envs/dev/
+          cwd: terragrunt/envs/${{ env.ENV }}/
         continue-on-error: true
 
       # Output Result to PR Comment
