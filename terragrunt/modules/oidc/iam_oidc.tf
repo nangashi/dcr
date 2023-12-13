@@ -14,14 +14,14 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
 }
 
 # GitHub Actions側からはこのIAM Roleを指定する
-resource "aws_iam_role" "github_actions" {
+resource "aws_iam_role" "administrator" {
   name               = "AdministratorOidc-${var.env}"
-  assume_role_policy = data.aws_iam_policy_document.github_actions.json
+  assume_role_policy = data.aws_iam_policy_document.administrator.json
   description        = "IAM Role for GitHub Actions OIDC"
 }
 
 # see: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#configuring-the-role-and-trust-policy
-data "aws_iam_policy_document" "github_actions" {
+data "aws_iam_policy_document" "administrator" {
   statement {
     actions = [
       "sts:AssumeRoleWithWebIdentity",
@@ -39,14 +39,50 @@ data "aws_iam_policy_document" "github_actions" {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:nangashi/dcr:environment:production"
+        "repo:${var.github_user}/${var.github_repository}:environment:production"
       ]
     }
   }
 }
 
-# 実際に利用する際にはこれに加えてdeny定義を追加付与するなどして、CI/CD用にカスタマイズすることを強く推奨
-resource "aws_iam_role_policy_attachment" "github_actions" {
+resource "aws_iam_role_policy_attachment" "administrator" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-  role       = aws_iam_role.github_actions.name
+  role       = aws_iam_role.administrator.name
+}
+
+# GitHub Actions側からはこのIAM Roleを指定する
+resource "aws_iam_role" "read_only" {
+  name               = "ReadOnlyOidc-${var.env}"
+  assume_role_policy = data.aws_iam_policy_document.read_only.json
+  description        = "IAM Role for GitHub Actions OIDC"
+}
+
+# see: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#configuring-the-role-and-trust-policy
+data "aws_iam_policy_document" "read_only" {
+  statement {
+    actions = [
+      "sts:AssumeRoleWithWebIdentity",
+    ]
+
+    principals {
+      type = "Federated"
+      identifiers = [
+        aws_iam_openid_connect_provider.github_actions.arn
+      ]
+    }
+
+    # OIDCを利用できるGitHub Repositoryを制限する
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:sub"
+      values = [
+        "repo:${var.github_user}/${var.github_repository}:environment:development"
+      ]
+    }
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "read_only" {
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  role       = aws_iam_role.read_only.name
 }
