@@ -33,7 +33,6 @@ apply:
 # 実行コマンド
 run:
 	$(eval MODULE_PATH := $(if $(MODULE),envs/$(ENV)/$(MODULE),envs/$(ENV)))
-	echo $(MAKE) $(CMD)-$(ENV) DIR=$(MODULE_PATH)
 	@$(MAKE) $(CMD)-$(ENV) DIR=$(MODULE_PATH)
 
 # 開発環境用のplan
@@ -56,7 +55,6 @@ plan-stg plan-prd:
 
 # ステージング/本番環境用のapply
 apply-stg apply-prd:
-	echo $(shell $(AWS_VAULT) aws ssm get-parameter --name "/$(ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text)
 	@cd $(DIR); \
 	export SLACK_TOKEN=$(shell $(AWS_VAULT) aws ssm get-parameter --name "/$(ENV)/slack/oauth_token" --with-decryption --query "Parameter.Value" --output text); \
 	export SLACK_CHANNEL_ID=$(shell $(AWS_VAULT) aws ssm get-parameter --name "/$(ENV)/slack/channel_id" --with-decryption --query "Parameter.Value" --output text); \
