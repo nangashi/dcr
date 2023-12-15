@@ -26,8 +26,8 @@ resource "awscc_chatbot_slack_channel_configuration" "notification_chatbot" {
   configuration_name = "Chatbot-${var.env}"
 
   # Slack ワークスペース ID とチャンネル ID を設定
-  slack_workspace_id = "T01JC6ZPQGG"
-  slack_channel_id   = "C067Z3NFCB1"
+  slack_workspace_id = var.chatbot_slack_workspace_id
+  slack_channel_id   = var.chatbot_slack_channel_id
 
   # SNS トピック ARN を設定
   sns_topic_arns = [aws_sns_topic.notification_sns_topic.arn]
@@ -64,11 +64,7 @@ resource "awscc_iam_role" "notification_chatbot" {
 data "aws_iam_policy_document" "notification_chatbot" {
   statement {
     actions = [
-      # "sns:Unsubscribe",
       "sns:Subscribe",
-      # "sns:ListTopics",
-      # "sns:ListSubscriptionsByTopic",
-      # "sns:ListSubscriptions"
     ]
     resources = [aws_sns_topic.notification_sns_topic.arn]
     effect    = "Allow"

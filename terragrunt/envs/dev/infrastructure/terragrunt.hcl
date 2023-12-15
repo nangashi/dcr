@@ -8,4 +8,5 @@ terraform {
 }
 
 inputs = {
+  chatbot_slack_channel_id = "C067Z3NFCB1"
 }

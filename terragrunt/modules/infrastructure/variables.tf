@@ -18,3 +18,13 @@ variable "user_account_id" {
   description = "ユーザを作成するアカウントID"
   type        = string
 }
+
+variable "chatbot_slack_workspace_id" {
+  description = "Chatbotの通知先となるSlackワークスペースID"
+  type        = string
+}
+
+variable "chatbot_slack_channel_id" {
+  description = "Chatbotの通知先となるSlackチャンネルID"
+  type        = string
+}
