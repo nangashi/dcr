@@ -39,6 +39,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    awscc = {
+      source  = "hashicorp/awscc"
+      version = "0.29.0"
+    }
   }
 }
 
@@ -50,6 +54,10 @@ provider "aws" {
       Environment = "${local.env}"
     }
   }
+}
+
+provider "awscc" {
+  region = "ap-northeast-1"
 }
   EOF
 }
