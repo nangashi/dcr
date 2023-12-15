@@ -1,3 +1,4 @@
+# 管理者ユーザ
 resource "aws_iam_user" "administrator" {
   for_each = (var.env == "dev") ? toset(var.administrator_users) : []
   name     = each.value
@@ -31,6 +32,31 @@ resource "aws_iam_role_policy_attachment" "administrator" {
     aws_iam_role.administrator
   ]
 }
+
+# dev環境以外ではAdministratorロール利用時に通知する
+resource "aws_cloudwatch_event_rule" "administrator_notification" {
+  count          = (var.env != "dev") ? 1 : 0
+  name           = "AssumeAdministratorRole-${var.env}"
+  event_bus_name = "default"
+
+  event_pattern = jsonencode({
+    source      = ["aws.sts"]
+    detail-type = ["AWS API Call via CloudTrail"]
+    detail = {
+      eventName = ["AssumeRole"],
+      requestParameters = {
+        roleArn = [aws_iam_role.administrator.arn]
+      }
+    }
+  })
+}
+
+resource "aws_cloudwatch_event_target" "administrator_notification" {
+  count = (var.env != "dev") ? 1 : 0
+  rule  = aws_cloudwatch_event_rule.administrator_notification[0].name
+  arn   = aws_sns_topic.notification_sns_topic.arn
+}
+
 
 resource "aws_iam_user" "developer" {
   for_each = (var.env == "dev") ? toset(var.developer_users) : []
