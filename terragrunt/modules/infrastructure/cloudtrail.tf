@@ -85,7 +85,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail_search" {
 
 # Athenaのテーブルの設定
 resource "aws_glue_catalog_table" "cloudtrail_logs" {
-  database_name = aws_glue_catalog_database.internal_db.name
+  database_name = aws_glue_catalog_database.catalog_db.name
   name          = local.data_catalog_table_name
 
   table_type = "EXTERNAL_TABLE"
