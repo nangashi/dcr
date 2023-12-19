@@ -4,6 +4,11 @@ variable "env" {
   type        = string
 }
 
+variable "account_id" {
+  description = "アカウントID"
+  type        = string
+}
+
 variable "administrator_users" {
   description = "管理者ユーザ"
   type        = list(string)
