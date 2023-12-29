@@ -112,62 +112,62 @@ resource "aws_glue_catalog_table" "cloudtrail_logs" {
     }
 
     columns {
-      name = "eventTime"
+      name = "eventtime"
       type = "string"
     }
 
     columns {
-      name = "eventName"
+      name = "eventname"
       type = "string"
     }
 
     columns {
-      name = "eventSource"
+      name = "eventsource"
       type = "string"
     }
 
     columns {
-      name = "awsRegion"
+      name = "awsregion"
       type = "string"
     }
 
     columns {
-      name = "sourceIpAddress"
+      name = "sourceipaddress"
       type = "string"
     }
 
     columns {
-      name = "userAgent"
+      name = "useragent"
       type = "string"
     }
 
     columns {
-      name = "errorCode"
+      name = "errorcode"
       type = "string"
     }
 
     columns {
-      name = "errorMessage"
+      name = "errormessage"
       type = "string"
     }
 
     columns {
-      name = "userIdentity"
+      name = "useridentity"
       type = "struct<type:string,principalid:string,arn:string,accountid:string,invokedby:string,accesskeyid:string,username:string,sessioncontext:struct<attributes:struct<mfaauthenticated:string,creationdate:string>,sessionIssuer:struct<type:string,principalId:string,arn:string,accountId:string,userName:string>>>"
     }
 
     columns {
-      name = "requestParameters"
+      name = "requestparameters"
       type = "string"
     }
 
     columns {
-      name = "responseElements"
+      name = "responseelements"
       type = "string"
     }
 
     columns {
-      name = "additionalEventData"
+      name = "additionaleventdata"
       type = "string"
     }
 
