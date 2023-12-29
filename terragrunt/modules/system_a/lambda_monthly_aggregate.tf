@@ -30,6 +30,7 @@ module "monthly_aggregate" {
   s3_bucket           = module.lambda_source.s3_bucket_id
   s3_prefix           = "monthly_aggregate/"
   store_on_s3         = true
+  # package_type        = "Image"
   # publish             = true
   # allowed_triggers = {
   #   APIGatewayAny = {
@@ -38,3 +39,30 @@ module "monthly_aggregate" {
   #   }
   # }
 }
+
+# module "monthly_aggregate2" {
+#   source  = "terraform-aws-modules/lambda/aws"
+#   version = "~> 6.0"
+
+#   timeout       = 900
+#   source_path   = "./monthly_aggregate/src/"
+#   function_name = "MonthlyAggregate2-${var.env}"
+#   handler       = "main.lambda_handler"
+#   runtime       = "python3.8"
+
+#   build_in_docker   = true
+#   docker_file       = "./monthly_aggregate/Dockerfile"
+#   docker_build_root = "./monthly_aggregate/src/"
+#   # package_type      = "Image"
+#   # create_sam_metadata = true
+#   # s3_bucket           = module.lambda_source.s3_bucket_id
+#   # s3_prefix           = "monthly_aggregate/"
+#   # store_on_s3         = true
+#   # publish             = true
+#   # allowed_triggers = {
+#   #   APIGatewayAny = {
+#   #     service    = "apigateway"
+#   #     source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
+#   #   }
+#   # }
+# }
