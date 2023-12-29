@@ -6,6 +6,7 @@ https://ap-northeast-1.console.aws.amazon.com/console/home?region=ap-northeast-1
 
 ## requirements
 
+- direnv
 - tfenv
 - terragrunt
 - tfnotify
@@ -32,19 +33,19 @@ export AWS_VAULT_PASS_PREFIX=aws-vault
 export AWS_SESSION_TOKEN_TTL=12h
 END
 source ~/.zshrc
-aws-vault add <user_profile>
+aws-vault add operator
 ```
 
 設定
 ~/.aws/config
 ```
-[profile user]
+[profile operator]
 region=ap-northeast-1
 output=json
 mfa_serial=arn:aws:iam::<account_id>:mfa/<mfa>
 
-[profile admin]
-source_profile=user
+[profile developer]
+source_profile=operator
 role_arn=arn:aws:iam::<account_id>:role/<role_name>
 mfa_serial=arn:aws:iam::<account_id>:mfa/<mfa>
 ```
@@ -52,7 +53,7 @@ mfa_serial=arn:aws:iam::<account_id>:mfa/<mfa>
 
 動作確認
 ```
-aws-vault exec admin
+aws-vault exec developer
 aws s3 ls
 exit
 ```

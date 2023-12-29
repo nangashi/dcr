@@ -15,6 +15,8 @@
       "docker-images/": true,
       "**/.terragrunt-cache": true,
       "**/.terraform.lock.hcl": true,
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
     },
     "editor.formatOnSave": true,
     "[terraform]": {
@@ -31,7 +33,12 @@
         "source.formatAll.terraform": true
       },
     },
-    "editor.codeLens": false, // コード内のblame無効化
+    "editor.codeLens": false,
+    "[terraform][terraform-vars]": {
+      "editor.codeActionsOnSave": {
+        "source.formatAll.terraform": "explicit"
+      }
+    }, // コード内のblame無効化
   },
   "extensions": {
     "recommendations": [
@@ -44,6 +51,34 @@
       "hashicorp.terraform",
       "hashicorp.hcl",
       "fredwangwang.vscode-hcl-format",
+      // aws
+      "amazonwebservices.aws-toolkit-vscode",
+    ]
+  },
+  "launch": {
+    "configurations": [
+      {
+        "name": "monthly_aggregate",
+        "type": "aws-sam",
+        "request": "direct-invoke",
+        "invokeTarget": {
+          "target": "template",
+          "logicalId": "lambda",
+          "templatePath": "${workspaceFolder:Terragrunt}/modules/system_a/monthly_aggregate/template.yaml"
+        },
+        "lambda": {
+          "runtime": "python3.8",
+          "payload": {
+            "json": {
+              "hoge": "fuga"
+            }
+          }
+        },
+        "sam": {
+          "containerBuild": false,
+          "skipNewImageCheck": false
+        },
+      }
     ]
   }
 }
