@@ -193,6 +193,18 @@ data "aws_iam_policy_document" "mfa_only" {
   }
 
   statement {
+    sid    = "AllowFederationUser"
+    effect = "Allow"
+
+    actions = [
+      "iam:GetUser",
+      "sts:GetFederationToken",
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
     sid    = "AllowUserToCreateVirtualMFADevice"
     effect = "Allow"
 
@@ -242,9 +254,11 @@ data "aws_iam_policy_document" "mfa_only" {
       "iam:CreateVirtualMFADevice",
       "iam:EnableMFADevice",
       "iam:ListMFADevices",
+      "iam:GetUser",
       "iam:ListUsers",
       "iam:ListVirtualMFADevices",
       "iam:ResyncMFADevice",
+      "sts:GetFederationToken",
     ]
 
     resources = ["*"]
