@@ -33,15 +33,17 @@ resource "awscc_chatbot_slack_channel_configuration" "notification_chatbot" {
   sns_topic_arns = [aws_sns_topic.notification_sns_topic.arn]
 
   # IAM ロール ARN を設定
-  iam_role_arn = awscc_iam_role.notification_chatbot.arn
+  iam_role_arn = aws_iam_role.notification_chatbot.arn
 
   # ログインフォメーション設定（任意）
-  logging_level = "ERROR"
+  logging_level      = "ERROR"
+  guardrail_policies = ["arn:aws:iam::aws:policy/AdministratorAccess"]
 }
 
-resource "awscc_iam_role" "notification_chatbot" {
-  role_name = "ChatBotChannelRole-${var.env}"
-  assume_role_policy_document = jsonencode({
+resource "aws_iam_role" "notification_chatbot" {
+  name = "ChatBotChannelRole-${var.env}"
+
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -54,20 +56,21 @@ resource "awscc_iam_role" "notification_chatbot" {
       },
     ]
   })
-  policies = [{
-    policy_name     = "SubscribeSnsTopic"
-    policy_document = data.aws_iam_policy_document.notification_chatbot.json
-  }]
-  managed_policy_arns = ["arn:aws:iam::aws:policy/ReadOnlyAccess"]
-}
 
-data "aws_iam_policy_document" "notification_chatbot" {
-  statement {
-    actions = [
-      "sns:Subscribe",
-    ]
-    resources = [aws_sns_topic.notification_sns_topic.arn]
-    effect    = "Allow"
+  inline_policy {
+    name = "SubscribeSnsTopic"
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Effect = "Allow"
+          Action = [
+            "sns:Subscribe"
+          ]
+          Resource = [aws_sns_topic.notification_sns_topic.arn]
+        }
+      ]
+    })
   }
 }
 

@@ -6,7 +6,7 @@ TF_WRAPPER := $(MAKEFILE_PATH)/scripts/tfwrapper.sh
 TFNOTIFY_CONFIG := $(MAKEFILE_PATH)/scripts/tfnotify_slack.yaml
 # 開発環境ではaws-vaultで認証する
 ifeq ($(ENV),dev)
-	AWS_VAULT := aws-vault exec admin --
+	AWS_VAULT := aws-vault exec developer --
 endif
 
 
@@ -22,6 +22,10 @@ check:
 	@$(AWS_VAULT) tflint --init --config=$(shell pwd)/.tflint.hcl
 	@$(AWS_VAULT) tflint --recursive --config=$(shell pwd)/.tflint.hcl
 
+# init ターゲット
+init: check
+	$(MAKE) run CMD=init
+
 # plan ターゲット
 plan: check
 	$(MAKE) run CMD=plan
@@ -34,6 +38,11 @@ apply:
 run:
 	$(eval MODULE_PATH := $(if $(MODULE),envs/$(ENV)/$(MODULE),envs/$(ENV)))
 	@$(MAKE) $(CMD)-$(ENV) DIR=$(MODULE_PATH)
+
+# 開発環境用のinit
+init-dev:
+	@cd $(DIR); \
+	$(AWS_VAULT) terragrunt $(if $(MODULE),,run-all) init
 
 # 開発環境用のplan
 plan-dev:

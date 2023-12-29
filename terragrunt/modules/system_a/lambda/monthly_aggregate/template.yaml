@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+# Description: An AWS Serverless Specification template describing your function.
+Resources:
+  lambda:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: main.lambda_handler
+      Runtime: python3.9
+      # Description: ''
+      # MemorySize: 128
+      # Timeout: 20
+      CodeUri: ./src/
+      Layers:
+        - arn:aws:lambda:ap-northeast-1:384081048358:layer:system_a_layer-dev:1
+      # Policies:
+      #   - S3CrudPolicy:
+      #       BucketName: qiita-data
