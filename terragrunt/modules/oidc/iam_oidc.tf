@@ -15,7 +15,9 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
 
 # GitHub ActionsからはこのIAM Roleを指定する
 resource "aws_iam_role" "administrator" {
-  name               = "AdministratorOidc-${var.env}"
+  for_each = toset(var.envs)
+
+  name               = "AdministratorOidc-${each.value}"
   assume_role_policy = data.aws_iam_policy_document.administrator.json
   description        = "IAM Role for GitHub Actions OIDC"
 }
@@ -46,13 +48,17 @@ data "aws_iam_policy_document" "administrator" {
 }
 
 resource "aws_iam_role_policy_attachment" "administrator" {
+  for_each = toset(var.envs)
+
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-  role       = aws_iam_role.administrator.name
+  role       = aws_iam_role.administrator[each.key].name
 }
 
 # GitHub Actions側からはこのIAM Roleを指定する
 resource "aws_iam_role" "read_only" {
-  name               = "ReadOnlyOidc-${var.env}"
+  for_each = toset(var.envs)
+
+  name               = "ReadOnlyOidc-${each.value}"
   assume_role_policy = data.aws_iam_policy_document.read_only.json
   description        = "IAM Role for GitHub Actions OIDC"
 }
@@ -83,6 +89,8 @@ data "aws_iam_policy_document" "read_only" {
 }
 
 resource "aws_iam_role_policy_attachment" "read_only" {
+  for_each = toset(var.envs)
+
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
-  role       = aws_iam_role.read_only.name
+  role       = aws_iam_role.read_only[each.key].name
 }

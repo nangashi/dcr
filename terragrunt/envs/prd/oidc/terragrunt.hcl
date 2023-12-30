@@ -8,4 +8,5 @@ terraform {
 }
 
 inputs = {
+  envs = ["dev", "prd"]
 }
