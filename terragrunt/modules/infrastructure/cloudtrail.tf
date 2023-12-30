@@ -1,6 +1,6 @@
 locals {
   cloudtrail_name               = "CloudTrailForSearch-${var.env}"
-  data_catalog_table_name       = "cloudtrail_logs"
+  data_catalog_table_name       = "cloudtrail_logs_${var.env}"
   cloudtrail_search_bucket_name = "cloudtrail-log-${var.account_id}-${var.env}"
 }
 

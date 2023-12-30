@@ -1,5 +1,5 @@
 locals {
-  catalog_db_name = "catalog_db"
+  catalog_db_name = "catalog_db_${var.env}"
 }
 
 resource "aws_athena_workgroup" "athena_search" {
