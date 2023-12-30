@@ -1,3 +1,8 @@
+variable "env" {
+  description = "環境名"
+  type        = string
+}
+
 # from base
 variable "envs" {
   description = "環境名のリスト"
