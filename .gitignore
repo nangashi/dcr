@@ -1,3 +1,5 @@
 **/.terragrunt-cache/
 **/__pycache__/
 **/.pytest_cache/
+terragrunt/envs/stg/**/.terraform.lock.hcl
+terragrunt/envs/prd/**/.terraform.lock.hcl
