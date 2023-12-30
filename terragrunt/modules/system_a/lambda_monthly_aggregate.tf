@@ -25,7 +25,7 @@ module "monthly_aggregate" {
   source_path         = "./monthly_aggregate/src/"
   function_name       = "MonthlyAggregate-${var.env}"
   handler             = "main.lambda_handler"
-  runtime             = "python3.8"
+  runtime             = "python3.9"
   create_sam_metadata = true
   s3_bucket           = module.lambda_source.s3_bucket_id
   s3_prefix           = "monthly_aggregate/"
