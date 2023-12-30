@@ -30,6 +30,9 @@ module "monthly_aggregate" {
   s3_bucket           = module.lambda_source.s3_bucket_id
   s3_prefix           = "monthly_aggregate/"
   store_on_s3         = true
+  layers = [
+    aws_lambda_layer_version.main.arn
+  ]
   # package_type        = "Image"
   # publish             = true
   # allowed_triggers = {
