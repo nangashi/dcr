@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - staging
+  push:
+    branches:
+      - feature/*
 
 jobs:
   terraform:
@@ -20,7 +23,7 @@ jobs:
         ${{
           github.base_ref == 'main' && 'prd'
           || github.base_ref == 'staging' && 'stg'
-          || 'error'
+          || 'dev'
         }}
       TF_IN_AUTOMATION: true
     steps:
@@ -97,6 +100,7 @@ jobs:
 
       # Output Result to PR Comment
       - name: PR comment
+        if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
         env:
           TFLINT_FAILED: ${{ env.TFLINT_FAILED }}
