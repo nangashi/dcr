@@ -15,7 +15,8 @@ resource "aws_iam_openid_connect_provider" "github_actions" {
 
 # GitHub ActionsからはこのIAM Roleを指定する
 resource "aws_iam_role" "administrator" {
-  name               = "AdministratorOidc-${var.env}"
+  for_each           = var.envs
+  name               = "AdministratorOidc-${each.value}"
   assume_role_policy = data.aws_iam_policy_document.administrator.json
   description        = "IAM Role for GitHub Actions OIDC"
 }
@@ -52,7 +53,8 @@ resource "aws_iam_role_policy_attachment" "administrator" {
 
 # GitHub Actions側からはこのIAM Roleを指定する
 resource "aws_iam_role" "read_only" {
-  name               = "ReadOnlyOidc-${var.env}"
+  for_each           = var.envs
+  name               = "ReadOnlyOidc-${each.value}"
   assume_role_policy = data.aws_iam_policy_document.read_only.json
   description        = "IAM Role for GitHub Actions OIDC"
 }

@@ -1,7 +1,7 @@
 # from base
-variable "env" {
-  description = "環境名"
-  type        = string
+variable "envs" {
+  description = "環境名のリスト"
+  type        = list(string)
 }
 
 variable "github_user" {
