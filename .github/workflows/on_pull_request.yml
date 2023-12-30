@@ -80,12 +80,19 @@ jobs:
           for line in "$TFLINT_RESULT"; do echo "$line" | sed "s#^modules/#terragrunt/modules/#g"; done
 
       # Init Terraform
-      - name: Terraform init
-        id: init
-        uses: gh640/command-result-action@v1
-        with:
-          command: terragrunt run-all init --terragrunt-no-color -no-color
-          cwd: terragrunt/envs/${{ env.ENV }}/
+      # - name: Terraform init
+      #   id: init
+      #   uses: gh640/command-result-action@v1
+      #   with:
+      #     command: terragrunt run-all init --terragrunt-no-color -no-color
+      #     cwd: terragrunt/envs/${{ env.ENV }}/
+      #   continue-on-error: true
+      - name: Terragrunt init
+        working-directory: terragrunt/
+        env:
+          # ENV: ${{ vars.ENV }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make init
         continue-on-error: true
 
       # Output Result to PR Comment

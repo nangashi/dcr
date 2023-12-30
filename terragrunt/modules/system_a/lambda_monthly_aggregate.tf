@@ -22,7 +22,7 @@ module "monthly_aggregate" {
   version = "~> 6.0"
 
   timeout             = 900
-  source_path         = "./monthly_aggregate/src/"
+  source_path         = "./lambda/monthly_aggregate/src/"
   function_name       = "MonthlyAggregate-${var.env}"
   handler             = "main.lambda_handler"
   runtime             = "python3.9"
