@@ -8,6 +8,10 @@
       "name": "Terragrunt",
       "path": "terragrunt"
     },
+    {
+      "name": "Database",
+      "path": "database"
+    },
   ],
   "settings": {
     "files.exclude": {

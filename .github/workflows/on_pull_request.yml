@@ -91,6 +91,7 @@ jobs:
       #     cwd: terragrunt/envs/${{ env.ENV }}/
       #   continue-on-error: true
       - name: Terragrunt init
+        id: init
         working-directory: terragrunt/
         env:
           # ENV: ${{ vars.ENV }}
@@ -110,7 +111,6 @@ jobs:
           hide_and_recreate: true
           hide_classify: "OUTDATED"
           message: |
-            ${{ steps.terraform-docs.outputs.num_changed > 0 && '✅' || '➖' }} terraform docs (number of updated = ${{ steps.terraform-docs.outputs.num_changed }})
             <details>
             <summary>${{ steps.fmt.outputs.exitCode == 0 && '✅' || '❌' }} terraform fmt</summary>
 
