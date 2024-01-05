@@ -8,7 +8,7 @@ module "monthly_aggregate" {
   version = "~> 6.0"
 
   timeout             = 900
-  function_name       = "${function_name}-${var.env}"
+  function_name       = "${local.function_name}-${var.env}"
   handler             = "main.lambda_handler"
   runtime             = "python3.9"
   create_sam_metadata = true
@@ -35,7 +35,7 @@ module "monthly_aggregate" {
 
 data "archive_file" "lambda" {
   type             = "zip"
-  source_dir       = "${program_path}/src"
-  output_path      = "${program_path}/lambda.zip"
+  source_dir       = "${local.program_path}/src"
+  output_path      = "${local.program_path}/lambda.zip"
   output_file_mode = "0644"
 }
