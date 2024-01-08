@@ -12,7 +12,9 @@ No requirements.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_common_layer"></a> [common\_layer](#module\_common\_layer) | ../custom/layer | n/a |
 
 ## Resources
 
@@ -74,6 +76,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_common_layer_arn"></a> [common\_layer\_arn](#output\_common\_layer\_arn) | n/a |
 | <a name="output_sns_notification_topic_arn"></a> [sns\_notification\_topic\_arn](#output\_sns\_notification\_topic\_arn) | 出力 (オプション) |
 | <a name="output_ssm_google_oauth_client_id"></a> [ssm\_google\_oauth\_client\_id](#output\_ssm\_google\_oauth\_client\_id) | n/a |
 | <a name="output_ssm_google_oauth_client_secret"></a> [ssm\_google\_oauth\_client\_secret](#output\_ssm\_google\_oauth\_client\_secret) | n/a |
