@@ -21,7 +21,8 @@ module "monthly_aggregate" {
   # store_on_s3         = true
 
   layers = [
-    aws_lambda_layer_version.main.arn
+    module.requirements_layer.arn,
+    var.common_layer_arn
   ]
   # package_type        = "Image"
   # publish             = true

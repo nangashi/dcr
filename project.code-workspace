@@ -42,7 +42,10 @@
       "editor.codeActionsOnSave": {
         "source.formatAll.terraform": "explicit"
       }
-    }, // コード内のblame無効化
+    },
+    "python.analysis.extraPaths": [
+      "${workspaceFolder}/modules/infrastructure/lambda/layers/src/python",
+    ],
   },
   "extensions": {
     "recommendations": [

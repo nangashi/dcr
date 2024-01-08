@@ -7,5 +7,10 @@ terraform {
   source = "../../..//modules/${path_relative_to_include()}"
 }
 
+dependency "infrastructure" {
+  config_path = "../infrastructure"
+}
+
 inputs = {
+  common_layer_arn = dependency.infrastructure.outputs.common_layer_arn
 }
