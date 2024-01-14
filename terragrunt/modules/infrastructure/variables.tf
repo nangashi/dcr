@@ -33,3 +33,8 @@ variable "chatbot_slack_channel_id" {
   description = "Chatbotの通知先となるSlackチャンネルID"
   type        = string
 }
+
+variable "enable_eventbridge_log" {
+  description = "EventBridgeで受信したイベントをCloudWatch Logsで保存する"
+  type        = bool
+}

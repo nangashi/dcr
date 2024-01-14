@@ -9,4 +9,5 @@ terraform {
 
 inputs = {
   chatbot_slack_channel_id = "C067Z3NFCB1"
+  enable_eventbridge_log   = true
 }

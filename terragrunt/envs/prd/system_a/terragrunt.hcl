@@ -12,5 +12,6 @@ dependency "infrastructure" {
 }
 
 inputs = {
-  common_layer_arn = dependency.infrastructure.outputs.common_layer_arn
+  common_layer_arn           = dependency.infrastructure.outputs.common_layer_arn
+  sns_notification_topic_arn = dependency.infrastructure.outputs.sns_notification_topic_arn
 }

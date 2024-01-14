@@ -23,7 +23,10 @@ No requirements.
 | [aws_athena_workgroup.athena_search](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/athena_workgroup) | resource |
 | [aws_cloudtrail.cloudtrail_search](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudtrail) | resource |
 | [aws_cloudwatch_event_rule.administrator_notification](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_rule.eventbridge_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
 | [aws_cloudwatch_event_target.administrator_notification](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
+| [aws_cloudwatch_event_target.eventbridge_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
+| [aws_cloudwatch_log_group.eventbridge_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_glue_catalog_database.catalog_db](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_database) | resource |
 | [aws_glue_catalog_table.cloudtrail_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_catalog_table) | resource |
 | [aws_iam_group.users](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_group) | resource |
@@ -69,6 +72,7 @@ No requirements.
 | <a name="input_chatbot_slack_channel_id"></a> [chatbot\_slack\_channel\_id](#input\_chatbot\_slack\_channel\_id) | Chatbotの通知先となるSlackチャンネルID | `string` | n/a | yes |
 | <a name="input_chatbot_slack_workspace_id"></a> [chatbot\_slack\_workspace\_id](#input\_chatbot\_slack\_workspace\_id) | Chatbotの通知先となるSlackワークスペースID | `string` | n/a | yes |
 | <a name="input_developer_users"></a> [developer\_users](#input\_developer\_users) | 開発者ユーザ | `list(string)` | n/a | yes |
+| <a name="input_enable_eventbridge_log"></a> [enable\_eventbridge\_log](#input\_enable\_eventbridge\_log) | EventBridgeで受信したイベントをCloudWatch Logsで保存する | `bool` | n/a | yes |
 | <a name="input_env"></a> [env](#input\_env) | 環境名 | `string` | n/a | yes |
 | <a name="input_user_account_id"></a> [user\_account\_id](#input\_user\_account\_id) | ユーザを作成するアカウントID | `string` | n/a | yes |
 
