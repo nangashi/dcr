@@ -13,8 +13,11 @@ data "aws_iam_policy_document" "notification_sns_topic" {
     actions = ["SNS:Publish"]
 
     principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
+      type = "Service"
+      identifiers = [
+        "events.amazonaws.com",
+        "cloudwatch.amazonaws.com"
+      ]
     }
 
     resources = [aws_sns_topic.notification_sns_topic.arn]
@@ -72,6 +75,10 @@ resource "aws_iam_role" "notification_chatbot" {
       ]
     })
   }
+
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess"
+  ]
 }
 
 # 出力 (オプション)
