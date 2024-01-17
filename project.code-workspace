@@ -71,7 +71,7 @@
         "invokeTarget": {
           "target": "template",
           "logicalId": "lambda",
-          "templatePath": "${workspaceFolder:Terragrunt}/modules/system_a/monthly_aggregate/template.yaml"
+          "templatePath": "${workspaceFolder:Terragrunt}/modules/system_a/lambda/monthly_aggregate/template.yaml"
         },
         "lambda": {
           "runtime": "python3.8",
