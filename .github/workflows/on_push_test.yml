@@ -43,7 +43,8 @@ jobs:
       - name: Run tests in changed directories
         if: steps.change_check.outputs.changed == 'true'
         run: |
-          for dir in ${{ join(fromJson('[' + env.CHANGED_DIRS + ']'), ' ') }}
+          IFS=' ' read -r -a dirs <<< "${{ env.CHANGED_DIRS }}"
+          for dir in "${dirs[@]}"
           do
             cd $dir
             make test
