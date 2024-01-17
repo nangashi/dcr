@@ -1,0 +1,51 @@
+name: Lambda Directories Push Test Workflow
+
+on:
+  push:
+    branches:
+      - "**" # Triggers the workflow on push to any branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Ensures all branches are fetched
+
+      - name: Find lambda directories
+        run: |
+          echo "LAMBDA_DIRS=$(find . -name 'lambda' -type d)" >> $GITHUB_ENV
+
+      - name: Determine the merge base
+        id: merge_base
+        run: |
+          echo "MERGE_BASE=$(git merge-base origin/main HEAD)" >> $GITHUB_ENV
+
+      - name: Check for changes in lambda directories since the merge base
+        id: change_check
+        run: |
+          for lambda_dir in ${{ env.LAMBDA_DIRS }}
+          do
+            for dir in $(ls -d $lambda_dir/*/ 2>/dev/null)
+            do
+              if git diff --quiet ${{ env.MERGE_BASE }} HEAD -- $dir; then
+                echo "No changes in $dir since the merge base"
+              else
+                echo "Changes detected in $dir since the merge base"
+                echo "::set-output name=changed::true"
+                echo "CHANGED_DIRS+=($dir)" >> $GITHUB_ENV
+              fi
+            done
+          done
+
+      - name: Run tests in changed directories
+        if: steps.change_check.outputs.changed == 'true'
+        run: |
+          for dir in ${{ join(fromJson('[' + env.CHANGED_DIRS + ']'), ' ') }}
+          do
+            cd $dir
+            make test
+            cd -  # returns to the previous directory
+          done
