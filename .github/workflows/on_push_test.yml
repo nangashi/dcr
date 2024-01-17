@@ -16,7 +16,10 @@ jobs:
 
       - name: Find lambda directories
         run: |
-          echo "LAMBDA_DIRS=$(find . -name 'lambda' -type d)" >> $GITHUB_ENV
+          # echo "LAMBDA_DIRS=$(find . -name 'lambda' -type d)" >> $GITHUB_ENV
+          echo "LAMBDA_DIRS<<END" >> $GITHUB_ENV
+          find . -name 'lambda' -type d 2>&1 >> $GITHUB_ENV
+          echo "END" >> $GITHUB_ENV
 
       - name: Determine the merge base
         id: merge_base
