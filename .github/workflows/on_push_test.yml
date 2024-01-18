@@ -50,7 +50,7 @@ jobs:
         if: steps.change_check.outputs.changed == 'true'
         run: |
           # IFS=' ' read -r -a dirs <<< "${{ env.CHANGED_DIRS }}"
-          for dir in "${{ env.CHANGED_DIRS }}"
+          for dir in ${{ env.CHANGED_DIRS }}
           do
             cd $dir
             make test
