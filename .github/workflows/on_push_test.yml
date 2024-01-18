@@ -29,7 +29,7 @@ jobs:
       - name: Check for changes in lambda directories since the merge base
         id: change_check
         run: |
-          dirs=""
+          dirs=()
           for lambda_dir in "${{ env.LAMBDA_DIRS }}"
           do
             for dir in $(ls -d $lambda_dir/*/ 2>/dev/null)
@@ -39,12 +39,11 @@ jobs:
               else
                 echo "Changes detected in $dir since the merge base"
                 echo "::set-output name=changed::true"
-                dirs="$dirs $dir"
-                echo $dirs - $dir
+                dirs+=($dir)
               fi
             done
           done
-          echo "CHANGED_DIRS=$dir" >> $GITHUB_ENV
+          echo "CHANGED_DIRS=$dirs" >> $GITHUB_ENV
 
       - name: Run tests in changed directories
         if: steps.change_check.outputs.changed == 'true'
