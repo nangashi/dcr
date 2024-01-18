@@ -39,7 +39,7 @@ jobs:
               else
                 echo "Changes detected in $dir since the merge base"
                 echo "::set-output name=changed::true"
-                dirs+=($dir)
+                dirs="$dirs $dir"
               fi
             done
           done
