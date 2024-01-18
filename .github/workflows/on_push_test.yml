@@ -43,7 +43,7 @@ jobs:
               fi
             done
           done
-          echo "CHANGED_DIRS=($dir)" >> $GITHUB_ENV
+          echo "CHANGED_DIRS=$dir" >> $GITHUB_ENV
 
       - name: Run tests in changed directories
         if: steps.change_check.outputs.changed == 'true'
