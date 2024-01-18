@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Ensures all branches are fetched
 
@@ -38,7 +38,7 @@ jobs:
               else
                 echo "Changes detected in $dir since the merge base"
                 echo "::set-output name=changed::true"
-                echo "CHANGED_DIRS+=($dir)" >> $GITHUB_ENV
+                echo "CHANGED_DIRS=$dir" >> $GITHUB_ENV
               fi
             done
           done
