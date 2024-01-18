@@ -42,7 +42,7 @@ jobs:
                 dirs+=($dir)
               fi
             done
-            echo "CHANGED_DIRS=$dir" >> $GITHUB_ENV
+            echo "CHANGED_DIRS=($dir)" >> $GITHUB_ENV
           done
 
       - name: Run tests in changed directories
